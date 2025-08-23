@@ -11,41 +11,59 @@ import { Input } from "@/components/ui/input";
 import config from "@/config";
 import { cn } from "@/lib/utils";
 import { useLoginMutation } from "@/redux/features/auth/auth.api";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
+import z from "zod";
+
+const loginSchema = z.object({
+  email: z.email(),
+  password: z.string().min(8),
+});
 
 export function LoginForm({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
   const navigate = useNavigate();
-  const form = useForm({
+  const [login, { isLoading }] = useLoginMutation();
+  const form = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const [login] = useLoginMutation();
-
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const res = await login(data).unwrap();
+      console.log("Login Response:", res);
 
+      // যদি backend এ success থাকে
       if (res.success) {
         toast.success("Welcome back 🚚");
-        navigate("/");
+
+        const role = res?.data?.user?.role;
+        if (role === "ADMIN") {
+          navigate("/admin");
+        } else if (role === "SENDER") {
+          navigate("/sender");
+        } else if (role === "RECEIVER") {
+          navigate("/receiver");
+        } else {
+          navigate("/");
+        }
+      } else {
+        toast.error("Login failed. Please try again.");
       }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      console.error(err);
+      console.error("Login Error:", err);
 
       if (err.data?.message === "Password does not match") {
         toast.error("Invalid credentials");
-      } else if (err.data?.message === "User is not verified") {
-        toast.error("Your account is not verified");
-        navigate("/verify", { state: data.email });
       } else {
         toast.error("Login failed. Please try again.");
       }
@@ -99,8 +117,12 @@ export function LoginForm({
             />
 
             {/* Submit */}
-            <Button type="submit" className="w-full bg-primary hover:bg-primary/90">
-              Login
+            <Button
+              type="submit"
+              className="w-full bg-primary hover:bg-primary/90"
+              disabled={isLoading}
+            >
+              {isLoading ? "Loading..." : "Login"}
             </Button>
           </form>
         </Form>
@@ -126,7 +148,10 @@ export function LoginForm({
       {/* Footer */}
       <div className="text-center text-sm">
         Don&apos;t have an account?{" "}
-        <Link to="/register" className="underline underline-offset-4 text-primary">
+        <Link
+          to="/register"
+          className="underline underline-offset-4 text-primary"
+        >
           Register
         </Link>
       </div>

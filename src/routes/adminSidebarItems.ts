@@ -1,4 +1,5 @@
 // import Analytics from "@/pages/admin/Analytics";
+import manageAllUsers from "@/pages/admin/ManageAllUsers";
 import type { ISidebarItem } from "@/types";
 import { lazy } from "react";
 
@@ -13,26 +14,16 @@ export const adminSidebarItems: ISidebarItem[] = [
         url: "/admin/analytics",
         component: Analytics,
       },
+      {
+        title: "manage all users",
+        url: "/admin/all-users",
+        component: manageAllUsers,
+      },
+      {
+        title: " manage all parcels",
+        url: "/admin/all-parcels",
+        component: manageAllUsers,
+      },
     ],
   },
-  // {
-  //   title: "Tour Management",
-  //   items: [
-  //     {
-  //       title: "Add Tour Type",
-  //       url: "/admin/add-tour-type",
-  //       component: AddTourType,
-  //     },
-  //     {
-  //       title: "Add Tour",
-  //       url: "/admin/add-tour",
-  //       component: AddTour,
-  //     },
-  //     {
-  //       title: "Habi Jabi",
-  //       url: "/admin/habijabi",
-  //       component: AddTour,
-  //     },
-  //   ],
-  // },
 ];
