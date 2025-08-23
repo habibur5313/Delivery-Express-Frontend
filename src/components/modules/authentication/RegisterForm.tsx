@@ -59,12 +59,13 @@ export function RegisterForm({
       name: data.name,
       email: data.email,
       password: data.password,
+      role: 'SENDER'
     };
 console.log(userInfo)
     try {
       await register(userInfo).unwrap();
       toast.success("Account created successfully 🚚");
-      navigate("/verify");
+      navigate("/login");
     } catch (error) {
       toast.error("Something went wrong. Please try again.");
       console.log(error)

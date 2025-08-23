@@ -4,7 +4,7 @@ import "./index.css";
 import { RouterProvider } from "react-router";
 import { ThemeProvider } from "./components/themeProvider";
 import { Provider as ReduxProvider } from "react-redux";
-import { router } from "./router";
+import { router } from "./routes";
 import { store } from "./redux/store";
 import { Toaster } from "sonner";
 
