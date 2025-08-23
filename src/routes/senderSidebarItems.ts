@@ -1,7 +1,7 @@
 import createParcelDeliveryRequests from "@/pages/sender/CreateParcelDeliveryRequests";
 import type { ISidebarItem } from "@/types";
 
-export const userSidebarItems: ISidebarItem[] = [
+export const senderSidebarItems: ISidebarItem[] = [
   {
     title: "History",
     items: [

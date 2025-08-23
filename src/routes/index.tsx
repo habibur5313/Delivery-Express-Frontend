@@ -10,7 +10,8 @@ import type { TRole } from "@/types";
 import { withAuth } from "@/utils/withAuth";
 import { About } from "@/pages/About";
 import { adminSidebarItems } from "./adminSidebarItems";
-import { userSidebarItems } from "./userSidebarItems";
+import { senderSidebarItems } from "./senderSidebarItems";
+import { receiverSidebarItems } from "./receiverSidebarItems";
 
 export const router = createBrowserRouter([
   {
@@ -36,7 +37,15 @@ export const router = createBrowserRouter([
     path: "/sender",
     children: [
       { index: true, element: <Navigate to="/sender/parcel-request" /> },
-      ...generateRoutes(userSidebarItems),
+      ...generateRoutes(senderSidebarItems),
+    ],
+  },
+  {
+    Component: withAuth(DashboardLayout, role.Receiver as TRole),
+    path: "/receiver",
+    children: [
+      { index: true, element: <Navigate to="/receiver/View-incoming-parcels" /> },
+      ...generateRoutes(receiverSidebarItems),
     ],
   },
   {
