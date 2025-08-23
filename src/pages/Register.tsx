@@ -1,4 +1,4 @@
-import TravelRegister from "@/assets/images/travel-register.jpg"; // Replace with a delivery-related illustration later
+import DeliveryRegister from "@/assets/images/delivery-register.jpg"; // Replace with a delivery-related illustration later
 import { Link } from "react-router";
 import Logo from "@/assets/icon/Logo";
 import { RegisterForm } from "@/components/modules/authentication/RegisterForm";
@@ -9,7 +9,7 @@ export default function Register() {
       {/* Left Side - Delivery Illustration */}
       <div className="relative hidden bg-muted lg:block">
         <img
-          src={TravelRegister}
+          src={DeliveryRegister}
           alt="Delivery Express Illustration"
           className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.8]"
         />

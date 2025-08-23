@@ -1,4 +1,4 @@
-import TravelLogin from "@/assets/images/travel-login.jpg"; // Replace with delivery-themed illustration
+import deliveryLogin from "@/assets/images/delivery-login.jpg"; // Replace with delivery-themed illustration
 import { Link } from "react-router";
 import { LoginForm } from "@/components/modules/authentication/LoginForm";
 import Logo from "@/assets/icon/Logo";
@@ -27,7 +27,7 @@ export default function Login() {
       {/* Right Side - Illustration */}
       <div className="relative hidden bg-muted lg:block">
         <img
-          src={TravelLogin}
+          src={deliveryLogin}
           alt="Delivery Express Login Illustration"
           className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.8]"
         />

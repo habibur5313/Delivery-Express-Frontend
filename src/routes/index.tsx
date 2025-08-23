@@ -12,12 +12,17 @@ import { About } from "@/pages/About";
 import { adminSidebarItems } from "./adminSidebarItems";
 import { senderSidebarItems } from "./senderSidebarItems";
 import { receiverSidebarItems } from "./receiverSidebarItems";
+import { Home } from "@/pages/home";
 
 export const router = createBrowserRouter([
   {
     Component: App,
     path: "/",
     children: [
+      {
+        Component: Home,
+        path: "",
+      },
       {
         Component: withAuth(About),
         path: "about",
