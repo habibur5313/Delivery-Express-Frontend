@@ -1,7 +1,9 @@
-import cancelParcel from "@/pages/sender/cancelParcel";
-import createParcelDeliveryRequests from "@/pages/sender/createParcelDeliveryRequests";
-import viewAllCreatedParcels from "@/pages/sender/viewAllCreatedParcels";
 import type { ISidebarItem } from "@/types";
+import { lazy } from "react";
+
+const cancelParcel = lazy(() => import("@/pages/sender/cancelParcel"));
+const createParcelDeliveryRequests = lazy(() => import("@/pages/sender/createParcelDeliveryRequests"));
+const viewAllCreatedParcels = lazy(() => import("@/pages/sender/viewAllCreatedParcels"));
 
 export const senderSidebarItems: ISidebarItem[] = [
   {
