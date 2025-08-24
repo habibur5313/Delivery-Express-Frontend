@@ -8,6 +8,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "react-router";
+import Swal from "sweetalert2";
 
 type Parcel = {
   _id: string;
@@ -34,14 +35,14 @@ type Parcel = {
 
 interface ParcelCardProps {
   parcel: Parcel;
+  onCancel?: (id: string, status: string) => void; // optional
 }
 
-export const ParcelCard: React.FC<ParcelCardProps> = ({ parcel }) => {
+export const ParcelCard: React.FC<ParcelCardProps> = ({
+  parcel,
+  onCancel = () => {},
+}) => {
   const { pathname } = useLocation();
-  console.log(pathname);
-  const handleCancel = () => {
-    console.log(parcel._id);
-  };
 
   return (
     <Card className="w-full max-w-md mx-auto my-4">
@@ -59,13 +60,13 @@ export const ParcelCard: React.FC<ParcelCardProps> = ({ parcel }) => {
           </Badge>
         </div>
         <div>
-          <strong>Sender:</strong> {parcel.senderInfo.division},{" "}
-          {parcel.senderInfo.city}, {parcel.senderInfo.street} -{" "}
+          <strong>Sender:</strong> {parcel.senderInfo.division},
+          {parcel.senderInfo.city}, {parcel.senderInfo.street} -
           {parcel.senderInfo.zip}
         </div>
         <div>
           <strong>Delivery Location:</strong> {parcel.deliveryLocation.division}
-          , {parcel.deliveryLocation.city}, {parcel.deliveryLocation.street} -{" "}
+          , {parcel.deliveryLocation.city}, {parcel.deliveryLocation.street} -
           {parcel.deliveryLocation.zip}
         </div>
         <div>
@@ -84,7 +85,24 @@ export const ParcelCard: React.FC<ParcelCardProps> = ({ parcel }) => {
         </div>
         {pathname === "/sender/cancel-parcel" && (
           <div className="mt-auto flex justify-end">
-            <Button variant="destructive" onClick={handleCancel}>
+            <Button
+              variant="destructive"
+              onClick={() => {
+                Swal.fire({
+                  title: "Do you want to cancel parcel",
+                  showDenyButton: true,
+                  showCancelButton: true,
+                  confirmButtonText: "Yes",
+                  denyButtonText: `No`,
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    onCancel(parcel._id, parcel.status);
+                  } else if (result.isDenied) {
+                    Swal.fire("parcel are not canceled", "", "info");
+                  }
+                });
+              }}
+            >
               Cancel Parcel
             </Button>
           </div>

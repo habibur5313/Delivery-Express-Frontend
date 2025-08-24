@@ -1,12 +1,31 @@
 import { ParcelCard } from "@/components/modules/Parcel/ParcelCard";
-import { useGetParcelsQuery } from "@/redux/features/Parcel/parcel.api";
+import { useCancelParcelMutation, useGetParcelsQuery } from "@/redux/features/Parcel/parcel.api";
+import { toast } from "sonner";
 
 export default function CancelParcel  ()  {
   const { data: parcels, isLoading, error } = useGetParcelsQuery();
 
+  const [cancelParcel] = useCancelParcelMutation();
+
+  const handleCancel = async (id: string, status: string) => {
+    console.log(status)
+    if(status === "CANCELLED"){
+     return toast.error("This parcel is already canceled");
+    }
+    try {
+    const res =  await cancelParcel(id).unwrap(); // call mutation
+    console.log(res)
+      toast.success("Parcel cancelled successfully!");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error : any) {
+      console.error(error);
+      toast.error(error?.data?.message);
+    }
+  };
+
+
   if (isLoading) return <div>Loading parcels...</div>;
   if (error) return <div>Error loading parcels</div>;
-console.log(parcels)
   return (
     <div>
       <h1>Cancel Parcel</h1>
@@ -14,7 +33,7 @@ console.log(parcels)
         {parcels?.length ? (
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         parcels.map((parcel: any) => (
-          <ParcelCard key={parcel._id} parcel={parcel}></ParcelCard>
+          <ParcelCard key={parcel._id} parcel={parcel} onCancel={handleCancel}></ParcelCard>
         ))
       ) : (
         <div>No parcels found</div>

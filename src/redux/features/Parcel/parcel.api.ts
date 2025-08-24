@@ -17,7 +17,14 @@ export const parcelApi = baseApi.injectEndpoints({
       providesTags: ["PARCEL"],
       transformResponse: (response: any) => response.data,
     }),
+    cancelParcel: builder.mutation({
+      query: (id: string) => ({
+        url: `/parcels/cancel/${id}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["PARCEL"], // automatically refresh getParcels
+    }),
   }),
 });
 
-export const { useGetParcelsQuery, useAddParcelMutation } = parcelApi;
+export const { useGetParcelsQuery, useAddParcelMutation, useCancelParcelMutation } = parcelApi;

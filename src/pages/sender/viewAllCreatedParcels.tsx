@@ -9,7 +9,7 @@ export default function ViewAllCreatedParcels  ()  {
 console.log(parcels)
   return (
     <div>
-      <h1>View All Created Parcels</h1>
+      <h1 className="text-2xl font-semibold">View All Created Parcels</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
         {parcels?.length ? (
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
