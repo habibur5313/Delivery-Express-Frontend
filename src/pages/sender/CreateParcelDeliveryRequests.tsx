@@ -1,254 +1,523 @@
-// import { useState } from "react";
-// import { Button } from "@/components/ui/button";
-// import {
-//   Input,
-// } from "@/components/ui/input";
-// import {
-//   Select,
-//   SelectContent,
-//   SelectGroup,
-//   SelectItem,
-//   SelectTrigger,
-//   SelectValue,
-// } from "@/components/ui/select";
-// import { formatISO } from "date-fns";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { cn } from "@/lib/utils";
+import {
+  useLazyGetUserByEmailQuery,
+  useUserInfoQuery,
+} from "@/redux/features/auth/auth.api";
+import { useAddParcelMutation } from "@/redux/features/Parcel/parcel.api";
+import {
+  parcelFormSchema,
+  type Divisions,
+  type ParcelFormSchema,
+} from "@/types";
+// import { IErrorResponse } from "@/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
 
-// type ParcelForm = {
-//   name: string;
-//   trackingId: string;
-//   senderInfo: {
-//     division: string;
-//     city: string;
-//     zip: string;
-//     street: string;
-//   };
-//   deliveryLocation: {
-//     division: string;
-//     city: string;
-//     zip: string;
-//     street: string;
-//   };
-//   sameDivision: boolean;
-//   sender: string;
-//   receiver: string;
-//   status: string;
-//   weight: number;
-//   estimatedDeliveryDate: string;
-//   pickUpDate: string;
-//   deliveryDate: string | null;
-//   cost: number;
-// };
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import z from "zod";
 
-// export default function CreateParcelPage() {
-//   const [parcel, setParcel] = useState<ParcelForm>({
-//     name: "",
-//     trackingId: `TRK${Math.floor(Math.random() * 1000000000)}`,
-//     senderInfo: { division: "", city: "", zip: "", street: "" },
-//     deliveryLocation: { division: "", city: "", zip: "", street: "" },
-//     sameDivision: true,
-//     sender: "",
-//     receiver: "",
-//     status: "REQUESTED",
-//     weight: 0,
-//     estimatedDeliveryDate: formatISO(new Date()),
-//     pickUpDate: formatISO(new Date()),
-//     deliveryDate: null,
-//     cost: 0,
-//   });
+export default function CreateParcelPage() {
+  const { data } = useUserInfoQuery(undefined);
+  const [getUserByEmail] = useLazyGetUserByEmailQuery();
+  const [addParcel] = useAddParcelMutation();
+  const currentUserId = data?.data?._id;
+  const form = useForm<ParcelFormSchema>({
+    resolver: zodResolver(parcelFormSchema),
+    defaultValues: {
+      name: "",
+      senderInfo: {
+        division: "DHAKA" as Divisions,
+        city: "",
+        zip: "",
+        street: "",
+      },
+      deliveryLocation: {
+        division: "DHAKA" as Divisions,
+        city: "",
+        zip: "",
+        street: "",
+      },
+      sameDivision: false,
+      sender: data?.data?._id,
+      receiver: "",
+      weight: 0,
+      estimatedDeliveryDate: new Date(),
+      pickUpDate: new Date(),
+      deliveryDate: null,
+      cost: 0,
+    },
+  });
 
-//   const handleChange = (
-//     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-//   ) => {
-//     const { name, value } = e.target;
-//     const keys = name.split(".");
-//     if (keys.length === 1) {
-//       setParcel((prev) => ({ ...prev, [name]: value }));
-//     } else if (keys.length === 2) {
-//       setParcel((prev) => ({
-//         ...prev,
-//         [keys[0]]: { ...prev[keys[0] as keyof ParcelForm], [keys[1]]: value },
-//       }));
-//     }
-//   };
+  const divisions = [
+    "DHAKA",
+    "CHITTAGONG",
+    "KHULNA",
+    "RAJSHAHI",
+    "BARISHAL",
+    "SYLHET",
+    "RANGPUR",
+    "MYMENSINGH",
+  ];
 
-//   const handleSubmit = () => {
-//     console.log(parcel);
-//     alert("Parcel created! Check console for data.");
-//   };
+  const handleSubmit = async (data: z.infer<typeof parcelFormSchema>) => {
+    try {
+      const res = await getUserByEmail(data.receiver).unwrap();
+      console.log(res);
 
-//   return (
-//     <div className="container mx-auto py-12">
-//       <h1 className="text-3xl font-bold mb-8 text-center">Create Parcel</h1>
-//       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-//         {/* Parcel Info */}
-//         <div className="space-y-4">
-//           <div>
-//             <Label>Name</Label>
-//             <Input
-//               name="name"
-//               value={parcel.name}
-//               onChange={handleChange}
-//               placeholder="Electronics Parcel"
-//             />
-//           </div>
-//           <div>
-//             <Label>Tracking ID</Label>
-//             <Input
-//               name="trackingId"
-//               value={parcel.trackingId}
-//               disabled
-//             />
-//           </div>
-//           <div>
-//             <Label>Weight (kg)</Label>
-//             <Input
-//               name="weight"
-//               type="number"
-//               value={parcel.weight}
-//               onChange={handleChange}
-//             />
-//           </div>
-//           <div>
-//             <Label>Cost (BDT)</Label>
-//             <Input
-//               name="cost"
-//               type="number"
-//               value={parcel.cost}
-//               onChange={handleChange}
-//             />
-//           </div>
-//         </div>
+      // 2️⃣ Role check
+      if (res.data.role !== "RECEIVER") {
+        toast.error("This user is not a receiver");
+        return;
+      }
 
-//         {/* Sender Info */}
-//         <div className="space-y-4">
-//           <h2 className="font-semibold">Sender Info</h2>
-//           <div>
-//             <Label>Division</Label>
-//             <Input
-//               name="senderInfo.division"
-//               value={parcel.senderInfo.division}
-//               onChange={handleChange}
-//             />
-//           </div>
-//           <div>
-//             <Label>City</Label>
-//             <Input
-//               name="senderInfo.city"
-//               value={parcel.senderInfo.city}
-//               onChange={handleChange}
-//             />
-//           </div>
-//           <div>
-//             <Label>ZIP</Label>
-//             <Input
-//               name="senderInfo.zip"
-//               value={parcel.senderInfo.zip}
-//               onChange={handleChange}
-//             />
-//           </div>
-//           <div>
-//             <Label>Street</Label>
-//             <Input
-//               name="senderInfo.street"
-//               value={parcel.senderInfo.street}
-//               onChange={handleChange}
-//             />
-//           </div>
-//         </div>
+      // 3️⃣ Payload create
+      const payload = {
+        ...data,
+        sender: currentUserId, // logged-in user
+        receiver: res.data._id, // validated receiver
+      };
+      console.log(payload);
+      // 4️⃣ Parcel create API call
+      const result = await addParcel(payload).unwrap();
+      console.log(result);
+      toast.success("Parcel created successfully");
+    } catch (err) {
+      console.log(err);
+      toast.error("Receiver not found or API error");
+    }
+  };
 
-//         {/* Delivery Location */}
-//         <div className="space-y-4">
-//           <h2 className="font-semibold">Delivery Location</h2>
-//           <div>
-//             <Label>Division</Label>
-//             <Input
-//               name="deliveryLocation.division"
-//               value={parcel.deliveryLocation.division}
-//               onChange={handleChange}
-//             />
-//           </div>
-//           <div>
-//             <Label>City</Label>
-//             <Input
-//               name="deliveryLocation.city"
-//               value={parcel.deliveryLocation.city}
-//               onChange={handleChange}
-//             />
-//           </div>
-//           <div>
-//             <Label>ZIP</Label>
-//             <Input
-//               name="deliveryLocation.zip"
-//               value={parcel.deliveryLocation.zip}
-//               onChange={handleChange}
-//             />
-//           </div>
-//           <div>
-//             <Label>Street</Label>
-//             <Input
-//               name="deliveryLocation.street"
-//               value={parcel.deliveryLocation.street}
-//               onChange={handleChange}
-//             />
-//           </div>
-//         </div>
+  return (
+    <div className="w-full sm:max-w-4xl mx-auto sm:px-5 mt-16">
+      <Card>
+        <CardHeader>
+          <CardTitle>Add parcel</CardTitle>
+          <CardDescription>Add a parcel to the system</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Form {...form}>
+            <form
+              id="add-parcel-form"
+              className="space-y-5"
+              onSubmit={form.handleSubmit(handleSubmit)}
+            >
+              {/* Parcel name */}
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Parcel Name</FormLabel>
+                    <FormControl>
+                      <Input {...field} placeholder="e.g. Electronics Parcel" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-//         {/* Dates & Status */}
-//         <div className="space-y-4">
-//           <h2 className="font-semibold">Dates & Status</h2>
-//           <div>
-//             <Label>Pick Up Date</Label>
-//             <Input
-//               type="date"
-//               name="pickUpDate"
-//               value={parcel.pickUpDate.split("T")[0]}
-//               onChange={(e) =>
-//                 setParcel((prev) => ({
-//                   ...prev,
-//                   pickUpDate: e.target.value,
-//                 }))
-//               }
-//             />
-//           </div>
-//           <div>
-//             <Label>Estimated Delivery Date</Label>
-//             <Input
-//               type="date"
-//               name="estimatedDeliveryDate"
-//               value={parcel.estimatedDeliveryDate.split("T")[0]}
-//               onChange={(e) =>
-//                 setParcel((prev) => ({
-//                   ...prev,
-//                   estimatedDeliveryDate: e.target.value,
-//                 }))
-//               }
-//             />
-//           </div>
-//           <div>
-//             <Label>Status</Label>
-//             <Select
-//               onValueChange={(value) =>
-//                 setParcel((prev) => ({ ...prev, status: value }))
-//               }
-//             >
-//               <SelectTrigger>
-//                 <SelectValue>{parcel.status}</SelectValue>
-//               </SelectTrigger>
-//               <SelectContent>
-//                 <SelectGroup>
-//                   <SelectItem value="REQUESTED">REQUESTED</SelectItem>
-//                   <SelectItem value="IN_TRANSIT">IN_TRANSIT</SelectItem>
-//                   <SelectItem value="DELIVERED">DELIVERED</SelectItem>
-//                 </SelectGroup>
-//               </SelectContent>
-//             </Select>
-//           </div>
-//         </div>
-//       </div>
+              {/* Sender + Receiver */}
+              <div className="flex gap-5">
+                <FormField
+                  control={form.control}
+                  name="sender"
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>Sender Name</FormLabel>
+                      <FormControl>
+                        <Input {...field} value={data?.data?.name ?? ""} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-//       <div className="mt-8 text-center">
-//         <Button onClick={handleSubmit}>Create Parcel</Button>
-//       </div>
-//     </div>
-//   );
-// }
+                <FormField
+                  control={form.control}
+                  name="receiver"
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>Receiver email</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="email"
+                          {...field}
+                          placeholder="john@gmail.com"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              {/* Sender Info */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+                <FormField
+                  control={form.control}
+                  name="senderInfo.division"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Division</FormLabel>
+                      <Select
+                        onValueChange={(value: Divisions) =>
+                          field.onChange(value)
+                        }
+                        value={field.value || "DHAKA"} // default value
+                      >
+                        <FormControl>
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Select division" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent className="w-full">
+                          {divisions.map((div) => (
+                            <SelectItem
+                              key={div}
+                              value={div as Divisions}
+                              className="w-full"
+                            >
+                              {div}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="senderInfo.city"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Sender City</FormLabel>
+                      <FormControl>
+                        <Input {...field} placeholder="e.g. Sreemongal" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="senderInfo.zip"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Sender ZIP</FormLabel>
+                      <FormControl>
+                        <Input {...field} placeholder="e.g. 3210" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="senderInfo.street"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Sender Street</FormLabel>
+                      <FormControl>
+                        <Input {...field} placeholder="123 Main Street" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              {/* Delivery Location */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+                <FormField
+                  control={form.control}
+                  name="deliveryLocation.division"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Division</FormLabel>
+                      <Select
+                        onValueChange={(value: Divisions) =>
+                          field.onChange(value)
+                        }
+                        value={field.value || "DHAKA"} // default value
+                      >
+                        <FormControl>
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Select division" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent className="w-full">
+                          {divisions.map((div) => (
+                            <SelectItem
+                              key={div}
+                              value={div as Divisions}
+                              className="w-full"
+                            >
+                              {div}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="deliveryLocation.city"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Delivery City</FormLabel>
+                      <FormControl>
+                        <Input {...field} placeholder="e.g. Motijheel" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="deliveryLocation.zip"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Delivery ZIP</FormLabel>
+                      <FormControl>
+                        <Input {...field} placeholder="e.g. 1200" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="deliveryLocation.street"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Delivery Street</FormLabel>
+                      <FormControl>
+                        <Input {...field} placeholder="House 45, Road 10" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              {/* Cost + Weight */}
+              <div className="flex gap-5">
+                <FormField
+                  control={form.control}
+                  name="cost"
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>Cost</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          {...field}
+                          value={field.value ?? ""}
+                          onChange={(e) =>
+                            field.onChange(e.target.valueAsNumber)
+                          } // 👈 converts string -> number
+                          placeholder="e.g. 150"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="weight"
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>Weight (kg)</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          {...field}
+                          value={field.value ?? ""}
+                          onChange={(e) =>
+                            field.onChange(e.target.valueAsNumber)
+                          }
+                          placeholder="e.g. 2.5"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              {/* Dates */}
+              <div className="flex flex-col sm:flex-row gap-5">
+                <FormField
+                  control={form.control}
+                  name="pickUpDate"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col flex-1">
+                      <FormLabel>Pick-up Date</FormLabel>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant="outline"
+                              className={cn(
+                                "w-full pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground"
+                              )}
+                            >
+                              {field.value ? (
+                                format(new Date(field.value), "PPP")
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent align="start" className="w-auto p-0">
+                          <Calendar
+                            mode="single"
+                            selected={
+                              field.value ? new Date(field.value) : undefined
+                            }
+                            onSelect={field.onChange}
+                            disabled={(date) => date < new Date()}
+                          />
+                        </PopoverContent>
+                      </Popover>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="estimatedDeliveryDate"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col flex-1">
+                      <FormLabel>Estimated Delivery Date</FormLabel>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant="outline"
+                              className={cn(
+                                "w-full pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground"
+                              )}
+                            >
+                              {field.value ? (
+                                format(new Date(field.value), "PPP")
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent align="start" className="w-auto p-0">
+                          <Calendar
+                            mode="single"
+                            selected={
+                              field.value ? new Date(field.value) : undefined
+                            }
+                            onSelect={field.onChange}
+                            disabled={(date) => date < new Date()}
+                          />
+                        </PopoverContent>
+                      </Popover>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              {/* Optional delivery date */}
+              <FormField
+                control={form.control}
+                name="deliveryDate"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Delivery Date (optional)</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant="outline"
+                            className={cn(
+                              "w-full pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value ? (
+                              format(new Date(field.value), "PPP")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent align="start" className="w-auto p-0">
+                        <Calendar
+                          mode="single"
+                          selected={
+                            field.value ? new Date(field.value) : undefined
+                          }
+                          onSelect={field.onChange}
+                          disabled={(date) => date < new Date()}
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </form>
+          </Form>
+        </CardContent>
+        <CardFooter className="flex justify-end">
+          <Button type="submit" form="add-parcel-form">
+            Create Tour
+          </Button>
+        </CardFooter>
+      </Card>
+    </div>
+  );
+}

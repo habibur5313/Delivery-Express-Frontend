@@ -30,6 +30,14 @@ export const authApi = baseApi.injectEndpoints({
       }),
       providesTags: ["USER"],
     }),
+
+    // 🔹 New endpoint for receiver email validation
+    getUserByEmail: builder.query({
+      query: (email) => ({
+        url: `/user/getUserByEmail/${email}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -38,4 +46,6 @@ export const {
   useLoginMutation,
   useUserInfoQuery,
   useLogoutMutation,
+  // 🔹 export new query hook
+  useLazyGetUserByEmailQuery,
 } = authApi;
