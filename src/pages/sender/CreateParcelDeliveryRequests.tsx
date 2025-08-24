@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -52,7 +53,7 @@ import z from "zod";
 export default function CreateParcelPage() {
   const { data } = useUserInfoQuery(undefined);
   const [getUserByEmail] = useLazyGetUserByEmailQuery();
-  const [addParcel] = useAddParcelMutation();
+  const [addParcel,{isLoading}] = useAddParcelMutation();
   const currentUserId = data?.data?._id;
   const form = useForm<ParcelFormSchema>({
     resolver: zodResolver(parcelFormSchema),
@@ -95,7 +96,6 @@ export default function CreateParcelPage() {
   const handleSubmit = async (data: z.infer<typeof parcelFormSchema>) => {
     try {
       const res = await getUserByEmail(data.receiver).unwrap();
-      console.log(res);
 
       // 2️⃣ Role check
       if (res.data.role !== "RECEIVER") {
@@ -109,14 +109,16 @@ export default function CreateParcelPage() {
         sender: currentUserId, // logged-in user
         receiver: res.data._id, // validated receiver
       };
-      console.log(payload);
+
       // 4️⃣ Parcel create API call
       const result = await addParcel(payload).unwrap();
       console.log(result);
-      toast.success("Parcel created successfully");
-    } catch (err) {
+      if (result.success) {
+        toast.success("Parcel created successfully");
+      }
+    } catch (err : any) {
       console.log(err);
-      toast.error("Receiver not found or API error");
+      toast.error(err.data.message);
     }
   };
 
@@ -240,7 +242,7 @@ export default function CreateParcelPage() {
                     <FormItem>
                       <FormLabel>Sender ZIP</FormLabel>
                       <FormControl>
-                        <Input {...field} placeholder="e.g. 3210" />
+                        <Input type="number" {...field} placeholder="e.g. 3210" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -316,7 +318,7 @@ export default function CreateParcelPage() {
                     <FormItem>
                       <FormLabel>Delivery ZIP</FormLabel>
                       <FormControl>
-                        <Input {...field} placeholder="e.g. 1200" />
+                        <Input type="number" {...field} placeholder="e.g. 1200" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -513,8 +515,8 @@ export default function CreateParcelPage() {
           </Form>
         </CardContent>
         <CardFooter className="flex justify-end">
-          <Button type="submit" form="add-parcel-form">
-            Create Tour
+          <Button disabled={isLoading} type="submit" form="add-parcel-form">
+             {isLoading ? "Creating..." : "Create Tour"}
           </Button>
         </CardFooter>
       </Card>

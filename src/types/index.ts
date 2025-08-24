@@ -35,7 +35,7 @@ export const parcelFormSchema = z.object({
   senderInfo: z.object({
     division: z.string().min(1, "Sender division is required"),
     city: z.string().min(1, "Sender city is required"),
-    zip: z.string().min(1, "Sender zip is required"),
+    zip: z.string().min(3, "Sender zip is required"),
     street: z.string().min(1, "Sender street is required"),
   }),
 
@@ -51,7 +51,7 @@ export const parcelFormSchema = z.object({
       "MYMENSINGH",
     ]),
     city: z.string().min(1, "Delivery city is required"),
-    zip: z.string().min(1, "Delivery zip is required"),
+    zip: z.string().min(3, "Delivery zip is required"),
     street: z.string().min(1, "Delivery street is required"),
   }),
 

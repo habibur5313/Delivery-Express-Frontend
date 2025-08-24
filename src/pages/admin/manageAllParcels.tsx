@@ -1,7 +1,7 @@
-const manageAllParcels = () => {
+const ManageAllParcels = () => {
   return (
     <div>manageAllParcels</div>
   )
 }
 
-export default manageAllParcels;
+export default ManageAllParcels;

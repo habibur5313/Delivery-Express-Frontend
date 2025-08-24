@@ -2,8 +2,8 @@ import type { ISidebarItem } from "@/types";
 import { lazy } from "react";
 
 const Analytics = lazy(() => import("@/pages/admin/Analytics"));
-const manageAllUsers = lazy(() => import("@/pages/admin/ManageAllUsers"));
-const manageAllParcels = lazy(() => import("@/pages/admin/manageAllParcels"));
+const ManageAllUsers = lazy(() => import("@/pages/admin/manageAllParcels"));
+const ManageAllParcels = lazy(() => import("@/pages/admin/manageAllParcels"));
 
 export const adminSidebarItems: ISidebarItem[] = [
   {
@@ -17,12 +17,12 @@ export const adminSidebarItems: ISidebarItem[] = [
       {
         title: "manage all users",
         url: "/admin/all-users",
-        component: manageAllUsers,
+        component: ManageAllUsers,
       },
       {
         title: " manage all parcels",
         url: "/admin/all-parcels",
-        component: manageAllParcels,
+        component: ManageAllParcels,
       },
     ],
   },

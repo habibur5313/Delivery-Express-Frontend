@@ -1,7 +1,7 @@
-const manageAllUsers = () => {
+const ManageAllUsers = () => {
   return (
     <div>ManageAllUsers</div>
   )
 }
 
-export default manageAllUsers
+export default ManageAllUsers
