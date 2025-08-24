@@ -1,9 +1,13 @@
 import type { ISidebarItem } from "@/types";
 import { lazy } from "react";
 
-const cancelParcel = lazy(() => import("@/pages/sender/cancelParcel"));
-const createParcelDeliveryRequests = lazy(() => import("@/pages/sender/createParcelDeliveryRequests"));
-const viewAllCreatedParcels = lazy(() => import("@/pages/sender/viewAllCreatedParcels"));
+const cancelParcel = lazy(() => import("@/pages/sender/CancelParcel"));
+const createParcelDeliveryRequests = lazy(
+  () => import("@/pages/sender/createParcelDeliveryRequests")
+);
+const viewAllCreatedParcels = lazy(
+  () => import("@/pages/sender/viewAllCreatedParcels")
+);
 
 export const senderSidebarItems: ISidebarItem[] = [
   {
