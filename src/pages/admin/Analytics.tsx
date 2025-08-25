@@ -74,7 +74,7 @@ export default function Analytics() {
                   outerRadius={80}
                   label
                 >
-                  {parcelStats.map((entry, index) => (
+                  {parcelStats.map((_entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
