@@ -5,7 +5,7 @@ export const parcelApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     // sender query
     getParcels: builder.query<any[], void>({
-      query: () => ({ url: "/Parcels/my", method: "GET" }),
+      query: () => ({ url: "/parcels/my", method: "GET" }),
       providesTags: ["PARCEL"],
       transformResponse: (response: any) => response.data,
     }),
@@ -26,14 +26,14 @@ export const parcelApi = baseApi.injectEndpoints({
     }),
     // receiver query
     getIncomingParcels: builder.query<any[], void>({
-      query: () => ({ url: "/Parcels/incoming", method: "GET" }),
+      query: () => ({ url: "/parcels/incoming", method: "GET" }),
       providesTags: ["PARCEL"],
       transformResponse: (response: any) => response.data,
     }),
     // ✅ confirm delivery mutation
     confirmDelivery: builder.mutation({
       query: (id: string) => ({
-        url: `/Parcels/confirmDelivery/${id}`,
+        url: `/parcels/confirmDelivery/${id}`,
         method: "PATCH",
       }),
       invalidatesTags: ["PARCEL"], // refresh after confirm
@@ -42,6 +42,27 @@ export const parcelApi = baseApi.injectEndpoints({
       query: () => ({ url: "/parcels/delivered", method: "GET" }),
       providesTags: ["PARCEL"],
       transformResponse: (response: any) => response.data,
+    }),
+
+    // admin query
+    getAllParcels: builder.query<any[], void>({
+      query: () => ({ url: "/parcels/all-parcels", method: "GET" }),
+      providesTags: ["PARCEL"],
+      transformResponse: (response: any) => response.data,
+    }),
+    blockParcel: builder.mutation({
+      query: (id: string) => ({
+        url: `/parcels/block/${id}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["PARCEL"], // refresh after confirm
+    }),
+    unblockParcel: builder.mutation({
+      query: (id: string) => ({
+        url: `/parcels/unblock/${id}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["PARCEL"], // refresh after confirm
     }),
   }),
 });
@@ -53,4 +74,7 @@ export const {
   useGetIncomingParcelsQuery,
   useConfirmDeliveryMutation,
   useGetDeliveredParcelsQuery,
+  useGetAllParcelsQuery,
+  useBlockParcelMutation,
+  useUnblockParcelMutation
 } = parcelApi;

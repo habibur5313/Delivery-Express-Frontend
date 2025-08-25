@@ -41,32 +41,14 @@ export function LoginForm({
       const res = await login(data).unwrap();
       console.log("Login Response:", res);
 
-      // যদি backend এ success থাকে
       if (res.success) {
         toast.success("Welcome back 🚚");
-
-        const role = res?.data?.user?.role;
-        if (role === "ADMIN") {
-          navigate("/admin");
-        } else if (role === "SENDER") {
-          navigate("/sender");
-        } else if (role === "RECEIVER") {
-          navigate("/receiver");
-        } else {
-          navigate("/");
-        }
-      } else {
-        toast.error("Login failed. Please try again.");
+        navigate("/");
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.error("Login Error:", err);
-
-      if (err.data?.message === "Password does not match") {
-        toast.error("Invalid credentials");
-      } else {
-        toast.error("Login failed. Please try again.");
-      }
+      toast.error(err.data?.message || "Login failed. Please try again.");
     }
   };
 
