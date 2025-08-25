@@ -20,6 +20,7 @@ export interface ISidebarItem {
 }
 
 export type TRole = "ADMIN" | "SENDER" | "RECEIVER";
+
 export type Divisions =
   | "DHAKA"
   | "CHITTAGONG"

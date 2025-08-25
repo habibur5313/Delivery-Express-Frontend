@@ -99,7 +99,7 @@ export default function CreateParcelPage() {
 
       // 2️⃣ Role check
       if (res.data.role !== "RECEIVER") {
-        toast.error("This user is not a receiver");
+        toast.error("Please provide a receiver email");
         return;
       }
 

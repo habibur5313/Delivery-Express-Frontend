@@ -36,11 +36,13 @@ type Parcel = {
 interface ParcelCardProps {
   parcel: Parcel;
   onCancel?: (id: string, status: string) => void; // optional
+  onConfirm?: (id: string, status: string) => void; // optional
 }
 
 export const ParcelCard: React.FC<ParcelCardProps> = ({
   parcel,
   onCancel = () => {},
+  onConfirm = () => {},
 }) => {
   const { pathname } = useLocation();
 
@@ -104,6 +106,30 @@ export const ParcelCard: React.FC<ParcelCardProps> = ({
               }}
             >
               Cancel Parcel
+            </Button>
+          </div>
+        )}
+        {pathname === "/receiver/confirm-parcels" && (
+          <div className="mt-auto flex justify-end">
+            <Button
+              variant="destructive"
+              onClick={() => {
+                Swal.fire({
+                  title: "Do you want to confirm parcel",
+                  showDenyButton: true,
+                  showCancelButton: true,
+                  confirmButtonText: "Yes",
+                  denyButtonText: `No`,
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    onConfirm(parcel._id, parcel.status);
+                  } else if (result.isDenied) {
+                    Swal.fire("parcel are not confirm", "", "info");
+                  }
+                });
+              }}
+            >
+              I have Received It
             </Button>
           </div>
         )}

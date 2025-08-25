@@ -50,7 +50,7 @@ export const router = createBrowserRouter([
     Component: withAuth(DashboardLayout, role.Receiver as TRole),
     path: "/receiver",
     children: [
-      { index: true, element: <Navigate to="/receiver/View-incoming-parcels" /> },
+      { index: true, element: <Navigate to="/receiver/incoming-parcels" /> },
       ...generateRoutes(receiverSidebarItems),
     ],
   },
