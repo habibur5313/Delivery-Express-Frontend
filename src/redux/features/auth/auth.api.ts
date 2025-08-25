@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { baseApi } from "@/redux/baseApi";
 
 export const authApi = baseApi.injectEndpoints({
@@ -38,6 +39,24 @@ export const authApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+
+    // 🔹 get all users
+    getUsers: builder.query<any[], void>({
+      query: () => ({
+        url: "/user/all-users?limit=100",
+        method: "GET",
+      }),
+      providesTags: ["USER"],
+      transformResponse: (response: any) => response.data,
+    }),
+    toggleUserStatus: builder.mutation({
+      query: ({ id, isActive }) => ({
+        url: `/user/toggle/${id}`,
+        method: "PATCH",
+        data: { isActive },
+      }),
+      invalidatesTags: ["USER"],
+    }),
   }),
 });
 
@@ -46,6 +65,8 @@ export const {
   useLoginMutation,
   useUserInfoQuery,
   useLogoutMutation,
+  useGetUsersQuery,
+  useToggleUserStatusMutation,
   // 🔹 export new query hook
   useLazyGetUserByEmailQuery,
 } = authApi;
