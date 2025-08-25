@@ -139,9 +139,9 @@ npm run preview
 
 ## **Credentials for Demo**
 
-* **Admin:** `admin@example.com / password123`
-* **Sender:** `sender@example.com / password123`
-* **Receiver:** `receiver@example.com / password123`
+* **Admin:** `admin@example.com / Password123`
+* **Sender:** `sender@example.com / Password123#`
+* **Receiver:** `receiver@example.com / Password123#`
 
 *(Note: Replace with actual credentials if different)*
 
