@@ -13,6 +13,7 @@ import { adminSidebarItems } from "./adminSidebarItems";
 import { senderSidebarItems } from "./senderSidebarItems";
 import { receiverSidebarItems } from "./receiverSidebarItems";
 import { Home } from "@/pages/Home";
+import { Contact } from "@/pages/Contact";
 
 
 export const router = createBrowserRouter([
@@ -25,8 +26,12 @@ export const router = createBrowserRouter([
         path: "",
       },
       {
-        Component: withAuth(About),
+        Component: About,
         path: "about",
+      },
+      {
+        Component: Contact,
+        path: "contact",
       },
     ],
   },
