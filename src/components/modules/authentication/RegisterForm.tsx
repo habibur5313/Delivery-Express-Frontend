@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRegisterMutation } from "@/redux/features/auth/auth.api";
 import { toast } from "sonner";
 import Password from "@/components/ui/Password";
+import config from "@/config";
 
 const registerSchema = z
   .object({
@@ -61,14 +62,14 @@ export function RegisterForm({
       password: data.password,
       role: 'SENDER'
     };
-console.log(userInfo)
+
     try {
       await register(userInfo).unwrap();
       toast.success("Account created successfully 🚚");
       navigate("/login");
-    } catch (error) {
-      toast.error("Something went wrong. Please try again.");
-      console.log(error)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error:any) {
+      toast.error(error.message || "Something went wrong. Please try again.");
     }
   };
 
@@ -164,7 +165,12 @@ console.log(userInfo)
         </div>
 
         {/* Social login */}
-        <Button type="button" variant="outline" className="w-full">
+        <Button
+         onClick={() => window.open(`${config.baseUrl}/auth/google`, "_self")}
+          type="button"
+          variant="outline"
+          className="w-full"
+         >
           Continue with Google
         </Button>
       </div>

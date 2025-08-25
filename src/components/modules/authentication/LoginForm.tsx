@@ -129,7 +129,7 @@ export function LoginForm({
 
       {/* Footer */}
       <div className="text-center text-sm">
-        Don&apos;t have an account?{" "}
+        Don&apos;t have an account?
         <Link
           to="/register"
           className="underline underline-offset-4 text-primary"
