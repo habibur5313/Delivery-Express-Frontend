@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { baseApi } from "@/redux/baseApi";
+import type { IParcel } from "@/types";
 
 export const parcelApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -64,6 +65,14 @@ export const parcelApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["PARCEL"], // refresh after confirm
     }),
+    getParcelByTrackingId: builder.query<IParcel[], string>({
+      query: (trackingId) => ({
+        url: `/parcels/tracking/${trackingId}`,
+        method: "GET",
+      }),
+      providesTags: ["PARCEL"],
+      transformResponse: (response: any) => response.data,
+    }),
   }),
 });
 
@@ -76,5 +85,6 @@ export const {
   useGetDeliveredParcelsQuery,
   useGetAllParcelsQuery,
   useBlockParcelMutation,
-  useUnblockParcelMutation
+  useUnblockParcelMutation,
+  useGetParcelByTrackingIdQuery
 } = parcelApi;

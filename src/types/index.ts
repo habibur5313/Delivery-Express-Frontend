@@ -75,3 +75,26 @@ export const parcelFormSchema = z.object({
 });
 
 export type ParcelFormSchema = z.infer<typeof parcelFormSchema>;
+
+export interface IParcel {
+  _id: string;
+  name: string;
+  senderInfo: {
+    division: string;
+    city: string;
+    zip: number;
+    street: string;
+  };
+  deliveryLocation: {
+    division: string;
+    city: string;
+    zip: number;
+    street: string;
+  };
+  status: string;
+  weight: number;
+  cost: number;
+  trackingId: string;
+  estimatedDeliveryDate: string;
+  pickUpDate: string;
+}
