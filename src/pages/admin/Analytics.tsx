@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useEffect } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 
 const parcelStats = [
@@ -19,6 +20,9 @@ const monthlyData = [
 const COLORS = ["#22c55e", "#eab308", "#3b82f6", "#ef4444"];
 
 export default function Analytics() {
+     useEffect(() => {
+          document.title = "Dashboard | Delivery Express ";
+        }, []);
   return (
     <div className="p-6 grid gap-6">
       {/* Page Title */}

@@ -3,9 +3,13 @@ import {
   useCancelParcelMutation,
   useGetParcelsQuery,
 } from "@/redux/features/Parcel/parcel.api";
+import { useEffect } from "react";
 import { toast } from "sonner";
 
 export default function CancelParcel() {
+     useEffect(() => {
+          document.title = "Dashboard | Delivery Express ";
+        }, []);
   const { data: parcels, isLoading } = useGetParcelsQuery();
 
   const [cancelParcel] = useCancelParcelMutation();

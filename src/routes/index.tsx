@@ -15,6 +15,7 @@ import { receiverSidebarItems } from "./receiverSidebarItems";
 import { Home } from "@/pages/Home";
 import { Contact } from "@/pages/Contact";
 import { FAQ } from "@/pages/FAQ";
+import Error from "@/pages/Error";
 
 
 export const router = createBrowserRouter([
@@ -75,5 +76,9 @@ export const router = createBrowserRouter([
   {
     Component: Unauthorized,
     path: "/unauthorized",
+  },
+  {
+    Component: Error,
+    path: "*",
   },
 ]);

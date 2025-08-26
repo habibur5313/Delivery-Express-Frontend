@@ -3,9 +3,13 @@ import {
   useConfirmDeliveryMutation,
   useGetIncomingParcelsQuery,
 } from "@/redux/features/Parcel/parcel.api";
+import { useEffect } from "react";
 import { toast } from "sonner";
 
 const ConfirmParcelDelivery = () => {
+     useEffect(() => {
+          document.title = "Dashboard | Delivery Express ";
+        }, []);
   const { data: incomingParcels, isLoading } = useGetIncomingParcelsQuery();
   const [confirmDelivery] = useConfirmDeliveryMutation();
 

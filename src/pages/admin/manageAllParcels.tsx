@@ -16,8 +16,12 @@ import {
   useUnblockParcelMutation,
 } from "@/redux/features/Parcel/parcel.api";
 import { toast } from "sonner";
+import { useEffect } from "react";
 
 const ManageAllParcels = () => {
+     useEffect(() => {
+          document.title = "Dashboard | Delivery Express ";
+        }, []);
   const { data: allParcels } = useGetAllParcelsQuery();
   const [blockParcel] = useBlockParcelMutation();
   const [unblockParcel] = useUnblockParcelMutation();

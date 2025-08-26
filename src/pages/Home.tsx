@@ -3,8 +3,12 @@ import { About } from "./About";
 import { Contact } from "./Contact";
 import LocationMap from "@/components/modules/Home/LocationMap";
 import { FAQ } from "./FAQ";
+import { useEffect } from "react";
 
 export const Home = () => {
+      useEffect(() => {
+      document.title = "Home | Delivery Express ";
+    }, []);
   return (
     <div>
       <HeroSection></HeroSection>

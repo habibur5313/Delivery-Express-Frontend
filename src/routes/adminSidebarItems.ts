@@ -1,3 +1,4 @@
+import { UpdateStatus } from "@/pages/admin/UpdateStatus";
 import type { ISidebarItem } from "@/types";
 import { lazy } from "react";
 
@@ -23,6 +24,11 @@ export const adminSidebarItems: ISidebarItem[] = [
         title: " manage all parcels",
         url: "/admin/all-parcels",
         component: ManageAllParcels,
+      },
+      {
+        title: " update parcel status",
+        url: "/admin/update-status",
+        component: UpdateStatus,
       },
     ],
   },

@@ -12,8 +12,12 @@ import {
   Mail,
   ArrowRight,
 } from "lucide-react";
+import { useEffect } from "react";
 
 export const About = () => {
+    useEffect(() => {
+        document.title = "About | Delivery Express ";
+      }, []);
   const { pathname } = useLocation();
   const values = [
     {

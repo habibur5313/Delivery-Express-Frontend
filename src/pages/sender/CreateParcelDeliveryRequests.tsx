@@ -45,15 +45,19 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
+import { useEffect } from "react";
 
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
 export default function CreateParcelPage() {
+  useEffect(() => {
+    document.title = "Dashboard | Delivery Express ";
+  }, []);
   const { data } = useUserInfoQuery(undefined);
   const [getUserByEmail] = useLazyGetUserByEmailQuery();
-  const [addParcel,{isLoading}] = useAddParcelMutation();
+  const [addParcel, { isLoading }] = useAddParcelMutation();
   const currentUserId = data?.data?._id;
   const form = useForm<ParcelFormSchema>({
     resolver: zodResolver(parcelFormSchema),
@@ -116,7 +120,7 @@ export default function CreateParcelPage() {
       if (result.success) {
         toast.success("Parcel created successfully");
       }
-    } catch (err : any) {
+    } catch (err: any) {
       console.log(err);
       toast.error(err.data.message);
     }
@@ -242,7 +246,11 @@ export default function CreateParcelPage() {
                     <FormItem>
                       <FormLabel>Sender ZIP</FormLabel>
                       <FormControl>
-                        <Input type="number" {...field} placeholder="e.g. 3210" />
+                        <Input
+                          type="number"
+                          {...field}
+                          placeholder="e.g. 3210"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -318,7 +326,11 @@ export default function CreateParcelPage() {
                     <FormItem>
                       <FormLabel>Delivery ZIP</FormLabel>
                       <FormControl>
-                        <Input type="number" {...field} placeholder="e.g. 1200" />
+                        <Input
+                          type="number"
+                          {...field}
+                          placeholder="e.g. 1200"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -516,7 +528,7 @@ export default function CreateParcelPage() {
         </CardContent>
         <CardFooter className="flex justify-end">
           <Button disabled={isLoading} type="submit" form="add-parcel-form">
-             {isLoading ? "Creating..." : "Create Tour"}
+            {isLoading ? "Creating..." : "Create Tour"}
           </Button>
         </CardFooter>
       </Card>

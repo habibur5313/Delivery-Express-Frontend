@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,6 +11,9 @@ import {
 import { toast } from "sonner";
 
 export const Contact = () => {
+    useEffect(() => {
+        document.title = "Contact | Delivery Express ";
+      }, []);
   const [formData, setFormData] = useState({
     name: '',
     email: '',

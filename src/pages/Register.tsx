@@ -2,8 +2,12 @@ import DeliveryRegister from "@/assets/images/delivery-register.jpg"; // Replace
 import { Link } from "react-router";
 import Logo from "@/assets/icon/Logo";
 import { RegisterForm } from "@/components/modules/authentication/RegisterForm";
+import { useEffect } from "react";
 
 export default function Register() {
+    useEffect(() => {
+        document.title = "Register | Delivery Express ";
+      }, []);
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       {/* Left Side - Delivery Illustration */}

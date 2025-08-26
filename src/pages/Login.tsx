@@ -2,8 +2,12 @@ import deliveryLogin from "@/assets/images/delivery-login.jpg"; // Replace with 
 import { Link } from "react-router";
 import { LoginForm } from "@/components/modules/authentication/LoginForm";
 import Logo from "@/assets/icon/Logo";
+import { useEffect } from "react";
 
 export default function Login() {
+    useEffect(() => {
+        document.title = "Login | Delivery Express ";
+      }, []);
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       {/* Left Side - Form */}

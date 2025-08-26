@@ -15,8 +15,12 @@ import {
   useToggleUserStatusMutation,
 } from "@/redux/features/auth/auth.api";
 import { toast } from "sonner";
+import { useEffect } from "react";
 
 const ManageAllUsers = () => {
+     useEffect(() => {
+          document.title = "Dashboard | Delivery Express ";
+        }, []);
   const { data: allUsers } = useGetUsersQuery();
   const [toggleStatus, { isLoading }] = useToggleUserStatusMutation();
 

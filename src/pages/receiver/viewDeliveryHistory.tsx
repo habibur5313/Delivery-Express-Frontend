@@ -1,7 +1,11 @@
 import { ParcelCard } from "@/components/modules/Parcel/ParcelCard";
 import { useGetDeliveredParcelsQuery } from "@/redux/features/Parcel/parcel.api";
+import { useEffect } from "react";
 
 const ViewDeliveryHistory = () => {
+     useEffect(() => {
+          document.title = "Dashboard | Delivery Express ";
+        }, []);
   const { data: deliveredParcels, isLoading } = useGetDeliveredParcelsQuery();
   if (isLoading) return <div>Loading parcels...</div>;
   return (
