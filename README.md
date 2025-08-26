@@ -139,7 +139,7 @@ npm run preview
 
 ## **Credentials for Demo**
 
-* **Admin:** `admin@example.com / Password123`
+* **Admin:** `admin@example.com / Password123#`
 * **Sender:** `sender@example.com / Password123#`
 * **Receiver:** `receiver@example.com / Password123#`
 

@@ -2,6 +2,7 @@ import HeroSection from "@/components/modules/Home/HeroSection";
 import { About } from "./About";
 import { Contact } from "./Contact";
 import LocationMap from "@/components/modules/Home/LocationMap";
+import { FAQ } from "./FAQ";
 
 export const Home = () => {
   return (
@@ -10,6 +11,7 @@ export const Home = () => {
       <About></About>
       <LocationMap></LocationMap>
       <Contact></Contact>
+      <FAQ></FAQ>
     </div>
   );
 };

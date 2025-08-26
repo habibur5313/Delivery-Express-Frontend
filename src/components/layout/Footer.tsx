@@ -1,14 +1,15 @@
 import Logo from "@/assets/icon/Logo";
-import { Dribbble, Facebook, Github, Instagram,  Twitter } from "lucide-react";
-import { Link } from "react-router";
+import { Facebook, Github, Instagram,  Linkedin,  Twitter } from "lucide-react";
+import { Link, useNavigate } from "react-router";
 
 export default function Footer() {
+  const navigate = useNavigate()
   return (
     <footer>
       <div className="mx-auto container space-y-8 px-4 py-16">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           <div>
-            <div className="text-foreground flex gap-2 items-center">
+            <div onClick={() => navigate('/')} className="text-foreground flex gap-2 items-center">
               <Logo /> <h1 className="pacifico-regular text-2xl font-semibold">Delivery Express</h1>
             </div>
 
@@ -19,7 +20,7 @@ export default function Footer() {
             <ul className="mt-8 flex gap-6">
               <li>
                 <Link
-                  to="#"
+                  to="https://www.facebook.com/habibur5231"
                   rel="noreferrer"
                   target="_blank"
                   className="text-gray-400 transition hover:opacity-75"
@@ -32,7 +33,7 @@ export default function Footer() {
 
               <li>
                 <Link
-                  to="#"
+                  to="https://giftcartgalaxy.xyz"
                   rel="noreferrer"
                   target="_blank"
                   className="text-gray-400 transition hover:opacity-75"
@@ -45,7 +46,7 @@ export default function Footer() {
 
               <li>
                 <Link
-                  to="#"
+                  to="https://giftcartgalaxy.xyz"
                   rel="noreferrer"
                   target="_blank"
                   className="text-gray-400 transition hover:opacity-75"
@@ -58,7 +59,7 @@ export default function Footer() {
 
               <li>
                 <Link
-                  to="#"
+                  to="https://github.com/habibur5313"
                   rel="noreferrer"
                   target="_blank"
                   className="text-gray-400 transition hover:opacity-75"
@@ -71,14 +72,14 @@ export default function Footer() {
 
               <li>
                 <Link
-                  to="#"
+                  to="https://www.linkedin.com/in/habibur-rahman13"
                   rel="noreferrer"
                   target="_blank"
                   className="text-gray-400 transition hover:opacity-75"
                 >
-                  <span className="sr-only">Dribbble</span>
+                  <span className="sr-only">Linkdin</span>
 
-                  <Dribbble></Dribbble>
+                  <Linkedin></Linkedin>
                 </Link>
               </li>
             </ul>
@@ -91,7 +92,7 @@ export default function Footer() {
               <ul className="mt-6 space-y-4 text-sm">
                 <li>
                   <Link
-                    to="#"
+                    to="/"
                     className="text-gray-400 transition hover:opacity-75"
                   >
                     {" "}
@@ -101,7 +102,7 @@ export default function Footer() {
 
                 <li>
                   <Link
-                    to="#"
+                    to="/"
                     className="text-gray-400 transition hover:opacity-75"
                   >
                     {" "}
@@ -111,7 +112,7 @@ export default function Footer() {
 
                 <li>
                   <Link
-                    to="#"
+                    to="/"
                     className="text-gray-400 transition hover:opacity-75"
                   >
                     {" "}
@@ -121,21 +122,11 @@ export default function Footer() {
 
                 <li>
                   <Link
-                    to="#"
+                    to="/"
                     className="text-gray-400 transition hover:opacity-75"
                   >
                     {" "}
                     HR Consulting{" "}
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    to="#"
-                    className="text-gray-400 transition hover:opacity-75"
-                  >
-                    {" "}
-                    SEO Optimisation{" "}
                   </Link>
                 </li>
               </ul>
@@ -147,7 +138,7 @@ export default function Footer() {
               <ul className="mt-6 space-y-4 text-sm">
                 <li>
                   <Link
-                    to="#"
+                    to="/about"
                     className="text-gray-400 transition hover:opacity-75"
                   >
                     {" "}
@@ -157,7 +148,7 @@ export default function Footer() {
 
                 <li>
                   <Link
-                    to="#"
+                    to="/about"
                     className="text-gray-400 transition hover:opacity-75"
                   >
                     {" "}
@@ -167,7 +158,7 @@ export default function Footer() {
 
                 <li>
                   <Link
-                    to="#"
+                    to="/"
                     className="text-gray-400 transition hover:opacity-75"
                   >
                     {" "}
@@ -183,7 +174,7 @@ export default function Footer() {
               <ul className="mt-6 space-y-4 text-sm">
                 <li>
                   <Link
-                    to="#"
+                    to="/contact"
                     className="text-gray-400 transition hover:opacity-75"
                   >
                     {" "}
@@ -193,7 +184,7 @@ export default function Footer() {
 
                 <li>
                   <Link
-                    to="#"
+                    to="/faq"
                     className="text-gray-400 transition hover:opacity-75"
                   >
                     {" "}
@@ -203,7 +194,7 @@ export default function Footer() {
 
                 <li>
                   <Link
-                    to="#"
+                    to="/"
                     className="text-gray-400 transition hover:opacity-75"
                   >
                     {" "}
@@ -219,7 +210,7 @@ export default function Footer() {
               <ul className="mt-6 space-y-4 text-sm">
                 <li>
                   <Link
-                    to="#"
+                    to="/"
                     className="text-gray-400 transition hover:opacity-75"
                   >
                     {" "}
@@ -229,7 +220,7 @@ export default function Footer() {
 
                 <li>
                   <Link
-                    to="#"
+                    to="/"
                     className="text-gray-400 transition hover:opacity-75"
                   >
                     {" "}
@@ -239,7 +230,7 @@ export default function Footer() {
 
                 <li>
                   <Link
-                    to="#"
+                    to="/"
                     className="text-gray-400 transition hover:opacity-75"
                   >
                     {" "}
@@ -249,7 +240,7 @@ export default function Footer() {
 
                 <li>
                   <Link
-                    to="#"
+                    to="/"
                     className="text-gray-400 transition hover:opacity-75"
                   >
                     Hiring-3 Statistics
@@ -261,7 +252,7 @@ export default function Footer() {
         </div>
 
         <p className="text-xs text-gray-500">
-          &copy; 2022. Company Name. All rights reserved.
+          &copy; 2025. Company Name. All rights reserved.
         </p>
       </div>
     </footer>
