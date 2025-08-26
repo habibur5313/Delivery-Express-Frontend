@@ -41,7 +41,7 @@ const ManageAllUsers = () => {
   };
 
   return (
-    <div className="p-6 bg-white rounded-2xl shadow-md">
+    <div className="p-6 rounded-2xl shadow-md">
       <h1 className="text-2xl font-semibold mb-6">👥 Manage All Users</h1>
 
       <Table>

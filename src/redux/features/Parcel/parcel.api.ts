@@ -86,5 +86,5 @@ export const {
   useGetAllParcelsQuery,
   useBlockParcelMutation,
   useUnblockParcelMutation,
-  useGetParcelByTrackingIdQuery
+  useGetParcelByTrackingIdQuery,
 } = parcelApi;

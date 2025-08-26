@@ -1,4 +1,4 @@
-import { UpdateStatus } from "@/pages/admin/UpdateStatus";
+import  UpdateStatus  from "@/pages/admin/UpdateStatus";
 import type { ISidebarItem } from "@/types";
 import { lazy } from "react";
 
