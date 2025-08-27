@@ -58,7 +58,7 @@ export const About = () => {
       name: "Rahim Uddin",
       role: "Founder & CEO",
       image:
-        "https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=300&h=300&fit=crop&crop=face",
+        "https://res.cloudinary.com/dcp9nk3bs/image/upload/v1756290629/sadfsadf_rokety.jpg",
       bio: "Visionary entrepreneur with a passion for building reliable delivery solutions in Bangladesh.",
     },
     {
