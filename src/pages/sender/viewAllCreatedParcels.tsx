@@ -1,12 +1,15 @@
 import { ParcelCard } from "@/components/modules/Parcel/ParcelCard";
 import { useGetParcelsQuery } from "@/redux/features/Parcel/parcel.api";
+import { useEffect } from "react";
 
 export default function ViewAllCreatedParcels  ()  {
+    useEffect(() => {
+        document.title = "Dashboard | Delivery Express ";
+      }, []);
   const { data: parcels, isLoading, error } = useGetParcelsQuery();
 
   if (isLoading) return <div>Loading parcels...</div>;
   if (error) return <div>Error loading parcels</div>;
-console.log(parcels)
   return (
     <div>
       <h1 className="text-2xl font-semibold">View All Created Parcels</h1>

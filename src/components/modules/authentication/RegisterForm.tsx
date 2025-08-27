@@ -31,12 +31,12 @@ const registerSchema = z
     confirmPassword: z
       .string()
       .min(8, { error: "Confirm Password is too short" }),
+    role: z.string().optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Password do not match",
     path: ["confirmPassword"],
   });
-
 
 export function RegisterForm({
   className,
@@ -60,18 +60,20 @@ export function RegisterForm({
       name: data.name,
       email: data.email,
       password: data.password,
-      role: 'SENDER'
+      role: data.role || "SENDER",
     };
 
     try {
       await register(userInfo).unwrap();
       toast.success("Account created successfully 🚚");
       navigate("/login");
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error:any) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       toast.error(error.message || "Something went wrong. Please try again.");
     }
   };
+
+  const roles = ["SENDER", "RECEIVER", "ADMIN"];
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -150,8 +152,35 @@ export function RegisterForm({
               )}
             />
 
+            <FormField
+              control={form.control}
+              name="role"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Select role</FormLabel>
+                  <FormControl>
+                    <select
+                      {...field}
+                      defaultValue={roles[0]}
+                      className="px-2 py-1 rounded-md border border-gray-300"
+                    >
+                      {roles.map((role) => (
+                        <option key={role} value={role}>
+                          {role}
+                        </option>
+                      ))}
+                    </select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             {/* Submit */}
-            <Button type="submit" className="w-full bg-primary hover:bg-primary/90">
+            <Button
+              type="submit"
+              className="w-full bg-primary hover:bg-primary/90"
+            >
               Register
             </Button>
           </form>
@@ -166,11 +195,11 @@ export function RegisterForm({
 
         {/* Social login */}
         <Button
-         onClick={() => window.open(`${config.baseUrl}/auth/google`, "_self")}
+          onClick={() => window.open(`${config.baseUrl}/auth/google`, "_self")}
           type="button"
           variant="outline"
           className="w-full"
-         >
+        >
           Continue with Google
         </Button>
       </div>

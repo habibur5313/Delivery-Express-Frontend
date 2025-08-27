@@ -39,7 +39,6 @@ export function LoginForm({
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const res = await login(data).unwrap();
-      console.log("Login Response:", res);
 
       if (res.success) {
         toast.success("Welcome back 🚚");

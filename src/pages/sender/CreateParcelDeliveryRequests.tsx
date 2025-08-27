@@ -64,7 +64,7 @@ export default function CreateParcelPage() {
     defaultValues: {
       name: "",
       senderInfo: {
-        division: "DHAKA" as Divisions,
+        division: "SYLHET" as Divisions,
         city: "",
         zip: "",
         street: "",
@@ -116,12 +116,10 @@ export default function CreateParcelPage() {
 
       // 4️⃣ Parcel create API call
       const result = await addParcel(payload).unwrap();
-      console.log(result);
       if (result.success) {
         toast.success("Parcel created successfully");
       }
     } catch (err: any) {
-      console.log(err);
       toast.error(err.data.message);
     }
   };
