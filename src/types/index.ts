@@ -1,7 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { ComponentType } from "react";
 import { z } from "zod";
-
-// export type { ISendOtp, IVerifyOtp, ILogin } from "./auth.type";
 
 export interface IResponse<T> {
   statusCode: number;
@@ -97,4 +96,57 @@ export interface IParcel {
   trackingId: string;
   estimatedDeliveryDate: string;
   pickUpDate: string;
+}
+
+export interface Parcel {
+  _id: string
+  name: string
+  senderInfo: SenderInfo
+  deliveryLocation: DeliveryLocation
+  sameDivision: boolean
+  sender: string
+  receiver: string
+  status: string
+  weight: number
+  estimatedDeliveryDate: string
+  pickUpDate: string
+  isBlocked: boolean
+  cost: number
+  trackingEvents: any[]
+  createdAt: string
+  updatedAt: string
+  trackingId: string
+  cancelledAt: string
+}
+
+export interface SenderInfo {
+  division: string
+  city: string
+  zip: number
+  street: string
+}
+
+export interface DeliveryLocation {
+  division: string
+  city: string
+  zip: number
+  street: string
+}
+
+export type ParcelResponse = {
+  statusCode: number;
+  success: boolean;
+  message: string;
+  meta: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPage: number;
+  };
+  data: Parcel[];
+};
+
+export interface IParcelResponse {
+  isLoading: boolean;
+  data: ParcelResponse
 }

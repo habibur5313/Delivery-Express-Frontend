@@ -57,7 +57,7 @@ export const Contact = () => {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <Badge className="mb-6 bg-blue-600 hover:bg-blue-700 text-lg px-6 py-2">
-            <span className="pacifico-regular">
+            <span className="text-white pacifico-regular">
                 Contact Delivery Express
             </span>
           </Badge>

@@ -84,7 +84,7 @@ export const About = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <Badge className="mb-6 bg-blue-600 hover:bg-blue-700 text-lg px-6 py-2">
-            <span className="pacifico-regular ">About Delivery Express</span>
+            <span className="pacifico-regular text-white">About Delivery Express</span>
           </Badge>
           <h1 className="text-4xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight">
             Fast, Secure & Reliable

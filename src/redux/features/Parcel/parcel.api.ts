@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { baseApi } from "@/redux/baseApi";
-import type { IParcel } from "@/types";
+import type { IParcel, IParcelResponse } from "@/types";
 
 export const parcelApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -51,6 +51,19 @@ export const parcelApi = baseApi.injectEndpoints({
       providesTags: ["PARCEL"],
       transformResponse: (response: any) => response.data,
     }),
+
+    Parcels: builder.query<
+      IParcelResponse,
+      { page?: number; limit?: number; status?: string }
+    >({
+      query: ({ page = 1, limit = 10, status }) => ({
+        url: "/parcels/all-parcels",
+        method: "GET",
+        params: { page, limit, status },
+      }),
+      providesTags: ["PARCEL"],
+    }),
+
     blockParcel: builder.mutation({
       query: (id: string) => ({
         url: `/parcels/block/${id}`,
@@ -84,6 +97,7 @@ export const {
   useConfirmDeliveryMutation,
   useGetDeliveredParcelsQuery,
   useGetAllParcelsQuery,
+  useParcelsQuery,
   useBlockParcelMutation,
   useUnblockParcelMutation,
   useGetParcelByTrackingIdQuery,
