@@ -54,6 +54,7 @@ const Parcels = () => {
     status: statusFilter !== "ALL" ? statusFilter : undefined,
     searchTerm: debouncedSearch || undefined,
   });
+
   const [blockParcel] = useBlockParcelMutation();
   const [unblockParcel] = useUnblockParcelMutation();
 
