@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { baseApi } from "@/redux/baseApi";
+import type { IUserResponse } from "@/types";
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -49,6 +50,26 @@ export const authApi = baseApi.injectEndpoints({
       providesTags: ["USER"],
       transformResponse: (response: any) => response.data,
     }),
+
+    Users: builder.query<
+      IUserResponse,
+      {
+        page?: number;
+        limit?: number;
+        status?: string;
+        searchTerm?: string;
+        sort?: string;
+      }
+    >({
+      query: ({ page = 1, limit = 10, status, searchTerm, sort }) => ({
+        url: "/user/all-users",
+        method: "GET",
+        params: { page, limit, status, searchTerm, sort },
+      }),
+      providesTags: ["USER"],
+      transformResponse: (response: any) => response, // keep meta + data intact
+    }),
+
     toggleUserStatus: builder.mutation({
       query: ({ id, isActive }) => ({
         url: `/user/toggle/${id}`,
@@ -66,6 +87,7 @@ export const {
   useUserInfoQuery,
   useLogoutMutation,
   useGetUsersQuery,
+  useUsersQuery,
   useToggleUserStatusMutation,
   // 🔹 export new query hook
   useLazyGetUserByEmailQuery,

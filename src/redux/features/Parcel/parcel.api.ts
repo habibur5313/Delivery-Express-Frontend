@@ -54,14 +54,15 @@ export const parcelApi = baseApi.injectEndpoints({
 
     Parcels: builder.query<
       IParcelResponse,
-      { page?: number; limit?: number; status?: string }
+      { page?: number; limit?: number; status?: string; searchTerm?: string; sort?: string }
     >({
-      query: ({ page = 1, limit = 10, status }) => ({
+      query: ({ page = 1, limit = 10, status, searchTerm, sort }) => ({
         url: "/parcels/all-parcels",
         method: "GET",
-        params: { page, limit, status },
+        params: { page, limit, status, searchTerm, sort },
       }),
       providesTags: ["PARCEL"],
+      transformResponse: (response: any) => response, // keep meta + data intact
     }),
 
     blockParcel: builder.mutation({

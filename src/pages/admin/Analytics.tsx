@@ -1,6 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useEffect } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
+import Parcels from "./Parcels";
+import ManageAllUsers from "./ManageAllUsers";
 
 const parcelStats = [
   { name: "Delivered", value: 120 },
@@ -88,6 +90,9 @@ export default function Analytics() {
           </CardContent>
         </Card>
       </div>
+
+      <Parcels></Parcels>
+      <ManageAllUsers></ManageAllUsers>
     </div>
   );
 }

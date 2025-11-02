@@ -1,4 +1,4 @@
-import { role } from "@/constants/role";
+import { role } from "@/constants";
 import { adminSidebarItems } from "@/routes/adminSidebarItems";
 import { receiverSidebarItems } from "@/routes/receiverSidebarItems";
 import { senderSidebarItems } from "@/routes/senderSidebarItems";

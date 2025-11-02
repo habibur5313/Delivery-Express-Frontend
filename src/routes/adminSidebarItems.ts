@@ -3,7 +3,6 @@ import { lazy } from "react";
 
 const Analytics = lazy(() => import("@/pages/admin/Analytics"));
 const ManageAllUsers = lazy(() => import("@/pages/admin/ManageAllUsers"));
-const ManageAllParcels = lazy(() => import("@/pages/admin/ManageAllParcels"));
 const UpdateStatus = lazy(() => import("@/pages/admin/UpdateStatus"));
 const Parcels = lazy(() => import("@/pages/admin/Parcels"));
 
@@ -25,11 +24,6 @@ export const adminSidebarItems: ISidebarItem[] = [
         title: "manage all users",
         url: "/admin/all-users",
         component: ManageAllUsers,
-      },
-      {
-        title: " manage all parcels",
-        url: "/admin/all-parcels",
-        component: ManageAllParcels,
       },
       {
         title: " update parcel status",

@@ -1,116 +1,3 @@
-// /* eslint-disable @typescript-eslint/no-explicit-any */
-// import {
-//   Table,
-//   TableBody,
-//   TableCaption,
-//   TableCell,
-//   TableHead,
-//   TableHeader,
-//   TableRow,
-// } from "@/components/ui/table";
-// import { Button } from "@/components/ui/button";
-// import { Badge } from "@/components/ui/badge";
-// import {
-//   useBlockParcelMutation,
-//   useGetAllParcelsQuery,
-//   useUnblockParcelMutation,
-// } from "@/redux/features/Parcel/parcel.api";
-// import { toast } from "sonner";
-// import { useEffect } from "react";
-
-// const Parcels = () => {
-//      useEffect(() => {
-//           document.title = "Dashboard | Delivery Express ";
-//         }, []);
-//   const { data: allParcels } = useGetAllParcelsQuery();
-//   const [blockParcel] = useBlockParcelMutation();
-//   const [unblockParcel] = useUnblockParcelMutation();
-
-//   const handleBlock = async (id: string) => {
-//     try {
-//       const res: any = await blockParcel(id).unwrap();
-//       if (res.success) {
-//         toast.success(res.message);
-//       } else {
-//         toast.error(res.message || "Failed to block parcel");
-//       }
-//     } catch (err: any) {
-//       toast.error(
-//         err.data?.message || "Something went wrong while blocking parcel"
-//       );
-//     }
-//   };
-
-//   const handleUnblock = async (id: string) => {
-//     try {
-//       const res: any = await unblockParcel(id).unwrap();
-//       if (res.success) {
-//         toast.success(res.message);
-//       } else {
-//         toast.error(res.message || "Failed to unblock parcel");
-//       }
-//     } catch (err: any) {
-//       toast.error(
-//         err.data?.message || "Something went wrong while unblocking parcel"
-//       );
-//     }
-//   };
-
-//   return (
-//     <div className="p-6 rounded-2xl shadow-md">
-//       <h1 className="text-2xl font-semibold mb-6">📦 All Parcels</h1>
-
-//       <Table>
-//         <TableCaption>A list of all parcels.</TableCaption>
-//         <TableHeader>
-//           <TableRow>
-//             <TableHead className="w-[200px]">Tracking ID</TableHead>
-//             <TableHead>Sender</TableHead>
-//             <TableHead>Receiver</TableHead>
-//             <TableHead>Status</TableHead>
-//             <TableHead className="text-center">Action</TableHead>
-//           </TableRow>
-//         </TableHeader>
-
-//         <TableBody>
-//           {allParcels?.map((parcel: any) => (
-//             <TableRow key={parcel._id}>
-//               <TableCell className="font-medium">{parcel.trackingId}</TableCell>
-//               <TableCell>{parcel.senderInfo.name || "N/A"}</TableCell>
-//               <TableCell>{parcel.deliveryLocation.name || "N/A"}</TableCell>
-//               <TableCell>
-//                 <Badge
-//                   variant={
-//                     parcel.status === "PENDING"
-//                       ? "default"
-//                       : parcel.status === "IN_TRANSIT"
-//                       ? "secondary"
-//                       : "destructive"
-//                   }
-//                   className="capitalize"
-//                 >
-//                   {parcel.status}
-//                 </Badge>
-//               </TableCell>
-//               <TableCell className="text-center">
-//                 {parcel.isBlocked ? (
-//                   <Button onClick={() => handleUnblock(parcel._id)}>
-//                     Unblock
-//                   </Button>
-//                 ) : (
-//                   <Button onClick={() => handleBlock(parcel._id)}>Block</Button>
-//                 )}
-//               </TableCell>
-//             </TableRow>
-//           ))}
-//         </TableBody>
-//       </Table>
-//     </div>
-//   );
-// };
-
-// export default Parcels;
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Table,
@@ -122,7 +9,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -145,7 +31,10 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import type { IParcelResponse } from "@/types";
+import type { IParcel, IParcelResponse } from "@/types";
+import { ParcelTableRow } from "@/components/modules/Parcel/ParcelTableRow";
+import { statusOptions } from "@/constants";
+import { useDebounce } from "@/hooks/useDebounce";
 
 const Parcels = () => {
   useEffect(() => {
@@ -155,19 +44,18 @@ const Parcels = () => {
   const [page, setPage] = useState(1);
   const limit = 10;
   const [statusFilter, setStatusFilter] = useState("ALL");
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const debouncedSearch = useDebounce(searchTerm, 500);
 
   const { data, isLoading } = useParcelsQuery<IParcelResponse>({
     page,
     limit,
     status: statusFilter !== "ALL" ? statusFilter : undefined,
+    searchTerm: debouncedSearch || undefined,
   });
   const [blockParcel] = useBlockParcelMutation();
   const [unblockParcel] = useUnblockParcelMutation();
-  
-  // states for search, filter, pagination
-  const [searchTerm, setSearchTerm] = useState("");
-
-  console.log(searchTerm, statusFilter);
 
   const parcels = useMemo(() => data?.data || [], [data]);
 
@@ -201,17 +89,6 @@ const Parcels = () => {
     }
   };
 
-  const statusOptions = [
-    "REQUESTED",
-    "APPROVED",
-    "DISPATCHED",
-    "IN_TRANSIT",
-    "DELIVERED",
-    "CANCELLED",
-    "FAILED_DELIVERY",
-    "RESCHEDULED",
-  ];
-
   return (
     <div className="p-6 rounded-2xl shadow-md space-y-4">
       <h1 className="text-2xl font-semibold mb-4">📦 All Parcels</h1>
@@ -238,7 +115,7 @@ const Parcels = () => {
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Filter by status" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="bg-black text-white">
             <SelectItem value="ALL">All</SelectItem>
             {statusOptions.map((status) => (
               <SelectItem key={status} value={status}>
@@ -265,53 +142,13 @@ const Parcels = () => {
 
         <TableBody>
           {parcels.length > 0 ? (
-            parcels.map((parcel: any) => (
-              <TableRow key={parcel._id}>
-                <TableCell className="font-medium">
-                  {parcel.trackingId}
-                </TableCell>
-                <TableCell>{parcel.name}</TableCell>
-                <TableCell>
-                  {parcel.senderInfo.city}, {parcel.senderInfo.division}
-                </TableCell>
-                <TableCell>
-                  {parcel.deliveryLocation.city},{" "}
-                  {parcel.deliveryLocation.division}
-                </TableCell>
-                <TableCell>
-                  <Badge
-                    variant={
-                      parcel.status === "PENDING"
-                        ? "default"
-                        : parcel.status === "IN_TRANSIT"
-                        ? "secondary"
-                        : parcel.status === "DELIVERED"
-                        ? "outline"
-                        : "destructive"
-                    }
-                    className="capitalize"
-                  >
-                    {parcel.status}
-                  </Badge>
-                </TableCell>
-                <TableCell className="text-center">
-                  {parcel.isBlocked ? (
-                    <Button
-                      variant="outline"
-                      onClick={() => handleUnblock(parcel._id)}
-                    >
-                      Unblock
-                    </Button>
-                  ) : (
-                    <Button
-                      variant="destructive"
-                      onClick={() => handleBlock(parcel._id)}
-                    >
-                      Block
-                    </Button>
-                  )}
-                </TableCell>
-              </TableRow>
+            parcels.map((parcel: IParcel) => (
+              <ParcelTableRow
+                parcel={parcel}
+                key={parcel._id}
+                handleBlock={handleBlock}
+                handleUnblock={handleUnblock}
+              ></ParcelTableRow>
             ))
           ) : (
             <TableRow>

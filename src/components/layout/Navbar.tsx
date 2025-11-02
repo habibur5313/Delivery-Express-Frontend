@@ -16,7 +16,7 @@ import {
   useLogoutMutation,
   useUserInfoQuery,
 } from "@/redux/features/auth/auth.api";
-import { role } from "@/constants/role";
+import { role } from "@/constants";
 import Logo from "@/assets/icon/Logo";
 import { ModeToggle } from "../mode.toggle";
 import { useAppDispatch } from "@/redux/hook";

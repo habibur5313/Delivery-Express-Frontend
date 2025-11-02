@@ -96,6 +96,7 @@ export interface IParcel {
   trackingId: string;
   estimatedDeliveryDate: string;
   pickUpDate: string;
+  isBlocked: boolean;
 }
 
 export interface Parcel {
@@ -146,7 +147,46 @@ export type ParcelResponse = {
   data: Parcel[];
 };
 
+export type User = {
+parcels: any[]
+  _id: string
+  name: string
+  email: string
+  role: string
+  isDeleted: boolean
+  isActive: string
+  isVerified: boolean
+  auths: Auth[]
+  createdAt: string
+  updatedAt: string
+}
+
+export interface Auth {
+  _id: string
+  provider: string
+  providerId: string
+}
+
+
+export type UserResponse = {
+  statusCode: number;
+  success: boolean;
+  message: string;
+  meta: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPage: number;
+  };
+  data: User[];
+};
+
 export interface IParcelResponse {
   isLoading: boolean;
   data: ParcelResponse
+}
+
+export interface IUserResponse {
+  isLoading: boolean;
+  data: UserResponse
 }

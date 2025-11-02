@@ -5,7 +5,7 @@ import Register from "@/pages/Register";
 import { generateRoutes } from "@/utils/generateRoutes";
 import { createBrowserRouter, Navigate } from "react-router";
 import Unauthorized from "@/pages/Unauthorized";
-import { role } from "@/constants/role";
+import { role } from "@/constants";
 import type { TRole } from "@/types";
 import { withAuth } from "@/utils/withAuth";
 import { About } from "@/pages/About";

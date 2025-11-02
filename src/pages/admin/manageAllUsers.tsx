@@ -8,21 +8,47 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import {
-  useGetUsersQuery,
   useToggleUserStatusMutation,
+  useUsersQuery,
 } from "@/redux/features/auth/auth.api";
 import { toast } from "sonner";
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { UserTableRow } from "@/components/modules/user/UserTableRow";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { statusOptions } from "@/constants";
+import type { IUserResponse } from "@/types";
+import { useDebounce } from "@/hooks/useDebounce";
+import { Input } from "@/components/ui/input";
+import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import { Button } from "@/components/ui/button";
 
 const ManageAllUsers = () => {
-     useEffect(() => {
-          document.title = "Dashboard | Delivery Express ";
-        }, []);
-  const { data: allUsers } = useGetUsersQuery();
-  const [toggleStatus, { isLoading }] = useToggleUserStatusMutation();
+  useEffect(() => {
+    document.title = "Dashboard | Delivery Express ";
+  }, []);
+  const [toggleStatus] = useToggleUserStatusMutation();
+  const [page, setPage] = useState(1);
+  const limit = 10;
+  const [statusFilter, setStatusFilter] = useState("ALL");
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const debouncedSearch = useDebounce(searchTerm, 500);
+
+  const { data, isLoading } = useUsersQuery<IUserResponse>({
+    page,
+    limit,
+    status: statusFilter !== "ALL" ? statusFilter : undefined,
+    searchTerm: debouncedSearch || undefined,
+  });
+
+  const allUsers = useMemo(() => data?.data || [], [data]);
 
   const handleToggle = async (id: string, status: string) => {
     let newStatus = "ACTIVE";
@@ -44,8 +70,43 @@ const ManageAllUsers = () => {
     <div className="p-6 rounded-2xl shadow-md">
       <h1 className="text-2xl font-semibold mb-6">👥 Manage All Users</h1>
 
+      {/* Search & Filter */}
+      <div className="flex flex-col sm:flex-row gap-4 justify-between items-center">
+        <Input
+          placeholder="Search by  Name & Email"
+          value={searchTerm}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            setPage(1);
+          }}
+          className="max-w-sm"
+        />
+
+        <Select
+          value={statusFilter}
+          onValueChange={(val) => {
+            setStatusFilter(val);
+            setPage(1);
+          }}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Filter by status" />
+          </SelectTrigger>
+          <SelectContent className="bg-black text-white">
+            <SelectItem value="ALL">All</SelectItem>
+            {statusOptions.map((status) => (
+              <SelectItem key={status} value={status}>
+                {status}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* table */}
+
       <Table>
-        <TableCaption>A list of all registered users.</TableCaption>
+        <TableCaption className="sr-only">A list of all registered users.</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="w-[200px]">Name</TableHead>
@@ -57,52 +118,55 @@ const ManageAllUsers = () => {
         </TableHeader>
 
         <TableBody>
-          {allUsers?.map((user: any) => (
-            <TableRow key={user._id}>
-              <TableCell className="font-medium">{user.name}</TableCell>
-              <TableCell>{user.email}</TableCell>
-              <TableCell>
-                <Badge
-                  variant={user.role === "ADMIN" ? "destructive" : "secondary"}
-                  className="capitalize"
-                >
-                  {user.role}
-                </Badge>
-              </TableCell>
-              <TableCell>
-                <Badge
-                  variant={
-                    user.isActive === "ACTIVE"
-                      ? "default"
-                      : user.isActive === "BLOCKED"
-                      ? "destructive"
-                      : "outline"
-                  }
-                  className="capitalize"
-                >
-                  {user.isActive}
-                </Badge>
-              </TableCell>
-              <TableCell className="text-center">
-                <Button
-                  variant={
-                    user.isActive === "ACTIVE" ? "destructive" : "default"
-                  }
-                  size="sm"
-                  disabled={isLoading}
-                  onClick={() => handleToggle(user._id, user.isActive)}
-                >
-                  {user.isActive === "ACTIVE"
-                    ? "Block"
-                    : user.isActive === "BLOCKED"
-                    ? "Unblock"
-                    : "Activate"}
-                </Button>
+          {allUsers.length > 0 ? (
+            allUsers?.map((user: any) => (
+              <UserTableRow
+                key={user._id}
+                user={user}
+                handleToggle={handleToggle}
+                isLoading={isLoading}
+              ></UserTableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={6} className="text-center py-6 text-gray-500">
+                {isLoading ? "Loading..." : "No users found"}
               </TableCell>
             </TableRow>
-          ))}
+          )}
         </TableBody>
       </Table>
+
+       {/* Pagination */}
+            {data?.meta?.totalPage > 1 && (
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <Button
+                      variant="outline"
+                      disabled={page === 1}
+                      onClick={() => setPage((prev) => prev - 1)}
+                    >
+                      <PaginationPrevious />
+                    </Button>
+                  </PaginationItem>
+      
+                  <span className="px-4 py-2">
+                    Page {data?.meta?.page} of {data?.meta?.totalPage}
+                  </span>
+      
+                  <PaginationItem>
+                    <Button
+                      variant="outline"
+                      disabled={page === data?.meta?.totalPage}
+                      onClick={() => setPage((prev) => prev + 1)}
+                    >
+                      <PaginationNext />
+                    </Button>
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            )}
     </div>
   );
 };
