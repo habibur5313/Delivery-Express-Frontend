@@ -1,16 +1,18 @@
 export const role = {
   Admin: "ADMIN",
-  Sender: "SENDER", 
+  Sender: "SENDER",
   Receiver: "RECEIVER",
 };
 
- export const statusOptions = [
-    "REQUESTED",
-    "APPROVED",
-    "DISPATCHED",
-    "IN_TRANSIT",
-    "DELIVERED",
-    "CANCELLED",
-    "FAILED_DELIVERY",
-    "RESCHEDULED",
-  ];
+export const roleOptions = ["ADMIN", "SENDER", "RECEIVER"];
+
+export const statusOptions = [
+  "REQUESTED",
+  "APPROVED",
+  "DISPATCHED",
+  "IN_TRANSIT",
+  "DELIVERED",
+  "CANCELLED",
+  "FAILED_DELIVERY",
+  "RESCHEDULED",
+];

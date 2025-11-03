@@ -48,6 +48,7 @@ import { CalendarIcon } from "lucide-react";
 import { useEffect } from "react";
 
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import z from "zod";
 
@@ -58,6 +59,7 @@ export default function CreateParcelPage() {
   const { data } = useUserInfoQuery(undefined);
   const [getUserByEmail] = useLazyGetUserByEmailQuery();
   const [addParcel, { isLoading }] = useAddParcelMutation();
+  const navigate = useNavigate();
   const currentUserId = data?.data?._id;
   const form = useForm<ParcelFormSchema>({
     resolver: zodResolver(parcelFormSchema),
@@ -102,7 +104,7 @@ export default function CreateParcelPage() {
       const res = await getUserByEmail(data.receiver).unwrap();
 
       // 2️⃣ Role check
-      if (res.data.role !== "RECEIVER") {
+      if (res.data === null || res.data.role !== "RECEIVER") {
         toast.error("Please provide a receiver email");
         return;
       }
@@ -118,6 +120,7 @@ export default function CreateParcelPage() {
       const result = await addParcel(payload).unwrap();
       if (result.success) {
         toast.success("Parcel created successfully");
+        navigate("/sender/all-created-parcels");
       }
     } catch (err: any) {
       toast.error(err.data.message);
@@ -179,7 +182,7 @@ export default function CreateParcelPage() {
                         <Input
                           type="email"
                           {...field}
-                          placeholder="john@gmail.com"
+                          placeholder="receiver@exaple.com"
                         />
                       </FormControl>
                       <FormMessage />

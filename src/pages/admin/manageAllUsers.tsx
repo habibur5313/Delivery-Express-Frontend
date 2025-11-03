@@ -22,12 +22,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { statusOptions } from "@/constants";
 import type { IUserResponse } from "@/types";
 import { useDebounce } from "@/hooks/useDebounce";
 import { Input } from "@/components/ui/input";
 import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
+import { roleOptions } from "@/constants";
 
 const ManageAllUsers = () => {
   useEffect(() => {
@@ -36,15 +36,17 @@ const ManageAllUsers = () => {
   const [toggleStatus] = useToggleUserStatusMutation();
   const [page, setPage] = useState(1);
   const limit = 10;
-  const [statusFilter, setStatusFilter] = useState("ALL");
+  const [roleFilter, setRoleFilter] = useState("ALL");
   const [searchTerm, setSearchTerm] = useState("");
 
   const debouncedSearch = useDebounce(searchTerm, 500);
 
+  console.log(roleFilter)
+
   const { data, isLoading } = useUsersQuery<IUserResponse>({
     page,
     limit,
-    status: statusFilter !== "ALL" ? statusFilter : undefined,
+    role: roleFilter !== "ALL" ? roleFilter : undefined,
     searchTerm: debouncedSearch || undefined,
   });
 
@@ -83,20 +85,20 @@ const ManageAllUsers = () => {
         />
 
         <Select
-          value={statusFilter}
+          value={roleFilter}
           onValueChange={(val) => {
-            setStatusFilter(val);
+            setRoleFilter(val);
             setPage(1);
           }}
         >
           <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Filter by status" />
+            <SelectValue placeholder="Filter by role" />
           </SelectTrigger>
           <SelectContent className="bg-black text-white">
             <SelectItem value="ALL">All</SelectItem>
-            {statusOptions.map((status) => (
-              <SelectItem key={status} value={status}>
-                {status}
+            {roleOptions.map((role) => (
+              <SelectItem key={role} value={role}>
+                {role}
               </SelectItem>
             ))}
           </SelectContent>

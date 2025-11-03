@@ -56,15 +56,15 @@ export const authApi = baseApi.injectEndpoints({
       {
         page?: number;
         limit?: number;
-        status?: string;
+        role?: string;
         searchTerm?: string;
         sort?: string;
       }
     >({
-      query: ({ page = 1, limit = 10, status, searchTerm, sort }) => ({
+      query: ({ page = 1, limit = 10, role, searchTerm, sort }) => ({
         url: "/user/all-users",
         method: "GET",
-        params: { page, limit, status, searchTerm, sort },
+        params: { page, limit, role, searchTerm, sort },
       }),
       providesTags: ["USER"],
       transformResponse: (response: any) => response, // keep meta + data intact

@@ -1,6 +1,16 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useEffect } from "react";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+} from "recharts";
 import Parcels from "./Parcels";
 import ManageAllUsers from "./ManageAllUsers";
 
@@ -22,40 +32,50 @@ const monthlyData = [
 const COLORS = ["#22c55e", "#eab308", "#3b82f6", "#ef4444"];
 
 export default function Analytics() {
-     useEffect(() => {
-          document.title = "Dashboard | Delivery Express ";
-        }, []);
+  useEffect(() => {
+    document.title = "Dashboard | Delivery Express";
+  }, []);
+
   return (
-    <div className="p-6 grid gap-6">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-6">
       {/* Page Title */}
-      <h1 className="text-2xl font-bold">Delivery Express Analytics</h1>
+      <h1 className="text-xl sm:text-2xl font-bold text-center md:text-left">
+        Delivery Express Analytics
+      </h1>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4">
         {parcelStats.map((stat, i) => (
-          <Card key={i} className="shadow-md rounded-2xl">
-            <CardHeader>
-              <CardTitle className="text-lg">{stat.name}</CardTitle>
+          <Card
+            key={i}
+            className="shadow-md rounded-2xl hover:shadow-lg transition-all duration-300"
+          >
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm sm:text-base">
+                {stat.name}
+              </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-2xl font-semibold">{stat.value}</p>
+              <p className="text-lg sm:text-2xl font-semibold">{stat.value}</p>
             </CardContent>
           </Card>
         ))}
       </div>
 
       {/* Charts Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Bar Chart */}
         <Card className="shadow-md rounded-2xl">
           <CardHeader>
-            <CardTitle>Monthly Parcels</CardTitle>
+            <CardTitle className="text-base sm:text-lg">
+              Monthly Parcels
+            </CardTitle>
           </CardHeader>
-          <CardContent className="h-72">
+          <CardContent className="h-[250px] sm:h-[300px] md:h-[360px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={monthlyData}>
-                <XAxis dataKey="month" />
-                <YAxis />
+                <XAxis dataKey="month" fontSize={12} />
+                <YAxis fontSize={12} />
                 <Tooltip />
                 <Bar dataKey="parcels" fill="#3b82f6" radius={[6, 6, 0, 0]} />
               </BarChart>
@@ -66,9 +86,11 @@ export default function Analytics() {
         {/* Pie Chart */}
         <Card className="shadow-md rounded-2xl">
           <CardHeader>
-            <CardTitle>Parcel Status Distribution</CardTitle>
+            <CardTitle className="text-base sm:text-lg">
+              Parcel Status Distribution
+            </CardTitle>
           </CardHeader>
-          <CardContent className="h-72 flex items-center justify-center">
+          <CardContent className="h-[250px] sm:h-[300px] md:h-[360px] flex items-center justify-center">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -77,11 +99,14 @@ export default function Analytics() {
                   nameKey="name"
                   cx="50%"
                   cy="50%"
-                  outerRadius={80}
+                  outerRadius="70%"
                   label
                 >
                   {parcelStats.map((_entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
                   ))}
                 </Pie>
                 <Tooltip />
@@ -91,8 +116,16 @@ export default function Analytics() {
         </Card>
       </div>
 
-      <Parcels></Parcels>
-      <ManageAllUsers></ManageAllUsers>
+      {/* ✅ Table Sections */}
+      <div className="space-y-6">
+        <div className="overflow-x-auto rounded-xl  shadow-sm p-2">
+          <Parcels />
+        </div>
+
+        <div className="overflow-x-auto rounded-xl  shadow-sm p-2">
+          <ManageAllUsers />
+        </div>
+      </div>
     </div>
   );
 }
