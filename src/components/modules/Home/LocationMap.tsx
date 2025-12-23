@@ -1,10 +1,10 @@
 const LocationMap = () => {
   return (
-    <div className=" bg-white">
-      <h1 className="text-3xl  font-bold text-center text-purple-600">
+    <div className=" bg-white dark:bg-slate-800 pt-10 pb-20">
+      <h1 className="text-3xl  font-bold text-center text-blue-600 dark:text-blue-400">
         A.J.R Parcel & Courier Service Ltd
       </h1>
-      <p className="text-xl font-semibold text-center text-black max-w-xl mx-auto mt-4">
+      <p className="text-xl font-semibold text-center text-black dark:text-white max-w-xl mx-auto mt-4">
         Sreemangal, Moulvibazar, Sylhet, Bangladesh
       </p>
       <iframe

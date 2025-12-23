@@ -13,9 +13,9 @@ import { adminSidebarItems } from "./adminSidebarItems";
 import { senderSidebarItems } from "./senderSidebarItems";
 import { receiverSidebarItems } from "./receiverSidebarItems";
 import { Home } from "@/pages/Home";
-import { Contact } from "@/pages/Contact";
-import { FAQ } from "@/pages/FAQ";
 import Error from "@/pages/Error";
+import { Contact } from "@/components/modules/Home/Contact";
+import { FAQ } from "@/components/modules/Home/Faq";
 
 
 export const router = createBrowserRouter([

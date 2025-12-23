@@ -3,55 +3,21 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router"; // ✅ React Router Link
 import {
-  Package,
-  Truck,
-  ShieldCheck,
-  Globe,
-  Users,
   Zap,
   Mail,
   ArrowRight,
 } from "lucide-react";
 import { useEffect } from "react";
+import { ServiceHighlights } from "@/components/modules/Home/ServiceHighlights";
+import { HowItWorks } from "@/components/modules/Home/HowItWorks";
+import { Categories } from "@/components/modules/Home/Categories";
 
 export const About = () => {
     useEffect(() => {
         document.title = "About | Delivery Express ";
       }, []);
   const { pathname } = useLocation();
-  const values = [
-    {
-      icon: ShieldCheck,
-      title: "Secure & Reliable",
-      description:
-        "We ensure every parcel is delivered safely, with full tracking and real-time updates.",
-    },
-    {
-      icon: Truck,
-      title: "Fast Delivery",
-      description:
-        "Our logistics network guarantees on-time deliveries across cities and regions.",
-    },
-    {
-      icon: Globe,
-      title: "Nationwide Coverage",
-      description:
-        "From small towns to big cities, Delivery Express connects customers everywhere.",
-    },
-    {
-      icon: Users,
-      title: "Customer First",
-      description:
-        "We prioritize customer satisfaction with transparent service and 24/7 support.",
-    },
-  ];
 
-  const stats = [
-    { number: "10K+", label: "Parcels Delivered", icon: Package },
-    { number: "500+", label: "Daily Deliveries", icon: Truck },
-    { number: "100+", label: "Delivery Agents", icon: Users },
-    { number: "50+", label: "Cities Covered", icon: Globe },
-  ];
 
   const team = [
     {
@@ -81,20 +47,20 @@ export const About = () => {
     <div className=" bg-gradient-to-br from-slate-50 via-white to-blue-50">
       {/* Hero Section */}
       <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10 dark:from-blue-600/20 dark:to-purple-600/20"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <Badge className="mb-6 bg-blue-600 hover:bg-blue-700 text-lg px-6 py-2">
-            <span className="pacifico-regular text-white">About Delivery Express</span>
+            <span className="pacifico-regular text-white">About Swift Parcel</span>
           </Badge>
           <h1 className="text-4xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight">
             Fast, Secure & Reliable
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <span className="bg-blue-500 bg-clip-text text-transparent">
               {" "}
               Parcel Delivery
             </span>
           </h1>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-            Delivery Express is your trusted partner for sending and receiving
+            SwiftParcel is your trusted partner for sending and receiving
             parcels with speed, reliability, and complete peace of mind. We
             bridge the gap between people and businesses through efficient
             logistics.
@@ -102,104 +68,15 @@ export const About = () => {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-8">
-          {stats.map((stat, index) => {
-            const Icon = stat.icon;
-            return (
-              <Card
-                key={index}
-                className="text-center border-0 shadow-lg hover:shadow-xl transition-all duration-300"
-              >
-                <CardContent className="p-6">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center mx-auto mb-4">
-                    <Icon className="h-6 w-6 text-white" />
-                  </div>
-                  <div className="text-3xl font-bold  mb-2">{stat.number}</div>
-                  <div className="text-slate-600 font-medium">{stat.label}</div>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
-      </section>
+      <ServiceHighlights />
+              <HowItWorks />
+              <Categories />
 
-      {/* Mission Section */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <Badge className="mb-6 bg-purple-100 text-purple-800 hover:bg-purple-200">
-              Our Mission
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
-              Delivering Trust Across Every Parcel
-            </h2>
-            <p className="text-lg text-slate-600 mb-6 leading-relaxed">
-              At Delivery Express, our mission is to make parcel delivery
-              seamless, secure, and accessible for everyone. Whether it's
-              personal packages or business shipments, we ensure your parcels
-              reach safely and on time.
-            </p>
-            <Link to="/contact">
-              <Button
-                size="lg"
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-              >
-                Get in Touch
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
-          <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-2xl transform rotate-3"></div>
-            <img
-              src="https://res.cloudinary.com/dcp9nk3bs/image/upload/v1755283555/images_9_oth1tc.jpg"
-              alt="Delivery Team"
-              className="relative rounded-2xl shadow-2xl w-full h-96 object-cover"
-            />
-          </div>
-        </div>
-      </section>
 
-      {/* Values Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-16">
-          <Badge className="mb-6 bg-green-100 text-green-800 hover:bg-green-200">
-            Our Values
-          </Badge>
-          <h2 className="pacifico-regular text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-            What Drives Delivery Express
-          </h2>
-        </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-          {values.map((value, index) => {
-            const Icon = value.icon;
-            return (
-              <Card
-                key={index}
-                className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg"
-              >
-                <CardContent className="p-8 flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
-                    <Icon className="h-6 w-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold mb-3">{value.title}</h3>
-                    <p className="text-slate-400 leading-relaxed">
-                      {value.description}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
-      </section>
 
       {/* Team Section */}
       {pathname === "/about" && (
-        <section className="py-20">
+        <section className="py-20 bg-white dark:bg-slate-800">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-16">
             <Badge className="mb-6 bg-orange-100 text-orange-800 hover:bg-orange-200">
               Meet Our Team
@@ -237,7 +114,7 @@ export const About = () => {
 
       {/* CTA Section */}
       {pathname === "/about" && (
-        <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-center">
+        <section className="py-20 bg-blue-600 text-white text-center">
           <Zap className="h-16 w-16 mx-auto mb-6 text-yellow-300" />
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Ready to Ship with Delivery Express?

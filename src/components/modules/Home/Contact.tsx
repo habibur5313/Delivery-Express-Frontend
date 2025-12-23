@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
 import { 
   Mail, MapPin, Phone, Clock, Send, Package, Truck, CheckCircle
 } from "lucide-react";
@@ -51,26 +50,21 @@ export const Contact = () => {
   ];
 
   return (
-    <div className=" bg-gradient-to-br from-slate-50 via-white to-blue-50">
+    <div className="bg-gradient-to-br from-slate-50 via-white to-blue-50  dark:bg-gradient-to-br dark:from-slate-800 dark:via-slate-900 dark:to-slate-800">
 
       {/* Hero Section */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <Badge className="mb-6 bg-blue-600 hover:bg-blue-700 text-lg px-6 py-2">
-            <span className="text-white pacifico-regular">
-                Contact Delivery Express
-            </span>
-          </Badge>
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-            We're Here to Help
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"> Anytime</span>
-          </h1>
-          <p className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            Whether it&apos;s a parcel inquiry, delivery support, or business collaboration, 
-            our team is ready to assist you quickly and efficiently.
+      <div
+          className="text-center py-10 transition-all duration-700 transform"
+        >
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50 mb-4">
+            Get in Touch
+          </h2>
+          <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+            Have questions about our services? We're here to help. Send us a
+            message and we'll respond as soon as possible.
           </p>
         </div>
-      </section>
+
 
       {/* Contact Info Cards */}
       <section className="py-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -79,7 +73,7 @@ export const Contact = () => {
           return (
             <Card key={index} className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg text-center">
               <CardContent className="p-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <div className="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                   <Icon className="h-6 w-6 text-white" />
                 </div>
                 <h3 className="font-bold  mb-2">{info.title}</h3>
@@ -117,7 +111,7 @@ export const Contact = () => {
                     <Label htmlFor="message">Message *</Label>
                     <Textarea id="message" name="message" value={formData.message} onChange={handleChange} required rows={6} placeholder="Tell us more..." />
                   </div>
-                  <Button type="submit" size="lg" disabled={isSubmitting} className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 font-semibold">
+                  <Button type="submit" size="lg" disabled={isSubmitting} className="w-full bg-blue-500 hover:bg-blue-600 font-semibold">
                     {isSubmitting ? "Sending..." : <><Send className="mr-2 h-4 w-4" />Send Message</>}
                   </Button>
                 </form>
@@ -152,7 +146,7 @@ export const Contact = () => {
             <Card className="shadow-lg border-0 bg-gradient-to-br from-green-50 to-emerald-50 border-green-200">
               <CardContent className="p-6">
                 <div className="flex items-center space-x-3 mb-4">
-                  <div className="w-10 h-10 bg-green-600 rounded-xl flex items-center justify-center">
+                  <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center">
                     <CheckCircle className="h-5 w-5 text-white" />
                   </div>
                   <h3 className="text-lg font-bold text-slate-900">Quick Response</h3>

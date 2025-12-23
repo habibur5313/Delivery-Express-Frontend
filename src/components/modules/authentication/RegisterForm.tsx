@@ -73,7 +73,7 @@ export function RegisterForm({
     }
   };
 
-  const roles = ["SENDER", "RECEIVER", "ADMIN"];
+  const roles = ["SENDER", "RECEIVER"];
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
